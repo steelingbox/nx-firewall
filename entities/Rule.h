@@ -12,6 +12,7 @@
 
 class Rule {
 Q_GADGET
+public:
     enum Action {
       ALOW,
       DENY,
@@ -24,32 +25,35 @@ Q_GADGET
       OUTGOING
     };
     Q_ENUM(Direction)
-
-    Direction direction;
-    QString source_addr, source_port;
-    QString destination_addr, destination_port;
-
-    QString protocol;
-    QString service_name;
-    Action action;
-
-public:
+    Rule();
     Direction getDirection() const;
     void setDirection(Direction direction);
-    const QString& getSource_addr() const;
-    void setSource_addr(const QString& source_addr);
-    const QString& getSource_port() const;
-    void setSource_port(const QString& source_port);
-    const QString& getDestination_addr() const;
-    void setDestination_addr(const QString& destination_addr);
-    const QString& getDestination_port() const;
-    void setDestination_port(const QString& destination_port);
+    const QString& getSourceAddr() const;
+    void setSourceAddr(const QString& sourceAddr);
+    const QList<int>& getSourcePorts() const;
+    void setSourcePorts(const QList<int>& sourcePorts);
+
+    const QString& getDestinationAddr() const;
+    void setDestinationAddr(const QString& destinationAddr);
+    const QList<int>& getDestinationPorts() const;
+    void setDestinationPorts(const QList<int>& destinationPorts);
+
     const QString& getProtocol() const;
     void setProtocol(const QString& protocol);
-    const QString& getService_name() const;
-    void setService_name(const QString& service_name);
+    const QString& getServiceName() const;
+    void setServiceName(const QString& service_name);
     Action getAction() const;
     void setAction(Action action);
+
+private:
+    Direction direction;
+    QString sourceAddr;
+    QList<int> sourcePorts;
+    QString destinationAddr;
+    QList<int> destinationPorts;
+    QString protocol;
+    QString serviceName;
+    Action action;
 };
 
 #endif //NOMAD_FIREWALL_RULE_H

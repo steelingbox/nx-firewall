@@ -11,34 +11,7 @@ void Rule::setDirection(Rule::Direction direction)
 {
     Rule::direction = direction;
 }
-const QString& Rule::getSource_addr() const
-{
-    return source_addr;
-}
-void Rule::setSource_addr(const QString& source_addr)
-{
-    Rule::source_addr = source_addr;
-}
-void Rule::setSource_port(const QString& source_port)
-{
-    Rule::source_port = source_port;
-}
-const QString& Rule::getDestination_addr() const
-{
-    return destination_addr;
-}
-void Rule::setDestination_addr(const QString& destination_addr)
-{
-    Rule::destination_addr = destination_addr;
-}
-const QString& Rule::getDestination_port() const
-{
-    return destination_port;
-}
-void Rule::setDestination_port(const QString& destination_port)
-{
-    Rule::destination_port = destination_port;
-}
+
 const QString& Rule::getProtocol() const
 {
     return protocol;
@@ -47,13 +20,13 @@ void Rule::setProtocol(const QString& protocol)
 {
     Rule::protocol = protocol;
 }
-const QString& Rule::getService_name() const
+const QString& Rule::getServiceName() const
 {
-    return service_name;
+    return serviceName;
 }
-void Rule::setService_name(const QString& service_name)
+void Rule::setServiceName(const QString& service_name)
 {
-    Rule::service_name = service_name;
+    Rule::serviceName = service_name;
 }
 Rule::Action Rule::getAction() const
 {
@@ -63,7 +36,38 @@ void Rule::setAction(Rule::Action action)
 {
     Rule::action = action;
 }
-const QString& Rule::getSource_port() const
+
+Rule::Rule()
+        :direction(INCOMING), sourceAddr("0/0"), destinationAddr("0/0"), protocol("tcp"), action(DENY) { }
+const QString& Rule::getSourceAddr() const
 {
-    return source_port;
+    return sourceAddr;
+}
+void Rule::setSourceAddr(const QString& sourceAddr)
+{
+    Rule::sourceAddr = sourceAddr;
+}
+const QList<int>& Rule::getSourcePorts() const
+{
+    return sourcePorts;
+}
+void Rule::setSourcePorts(const QList<int>& sourcePorts)
+{
+    Rule::sourcePorts = sourcePorts;
+}
+const QString& Rule::getDestinationAddr() const
+{
+    return destinationAddr;
+}
+void Rule::setDestinationAddr(const QString& destinationAddr)
+{
+    Rule::destinationAddr = destinationAddr;
+}
+const QList<int>& Rule::getDestinationPorts() const
+{
+    return destinationPorts;
+}
+void Rule::setDestinationPorts(const QList<int>& destinationPorts)
+{
+    Rule::destinationPorts = destinationPorts;
 }
