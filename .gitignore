@@ -40,3 +40,6 @@ CMakeLists.txt.user*
 # VSCODE
 .vscode
 build
+
+# CLion
+.idea
