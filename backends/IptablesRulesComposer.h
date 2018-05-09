@@ -20,6 +20,9 @@ public:
     QString composeDestinationPorts(const QList<int>& list);
     QString composeRuleAction(const Rule::Action& action);
     QString composeRuleProtocol(const QString& p);
+    QString composeSourceAddress(const QString& address);
+    QString composeDestinationAddress(const QString& address);
+    bool isAMatchAllAddress(const QString& address) const;
 };
 
 #endif //NOMAD_FIREWALL_IPTABLESRULESCOMPOSER_H

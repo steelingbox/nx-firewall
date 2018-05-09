@@ -5,7 +5,9 @@ QString IptablesRulesComposer::compose(const Rule& rule)
     QStringList ruleString;
     ruleString.append(composeDirection(rule));
     ruleString.append(composeRuleProtocol(rule.getProtocol()));
+    ruleString.append(composeSourceAddress(rule.getSourceAddr()));
     ruleString.append(composeSourcePorts(rule.getSourcePorts()));
+    ruleString.append(composeDestinationAddress(rule.getDestinationAddr()));
     ruleString.append(composeDestinationPorts(rule.getDestinationPorts()));
     ruleString.append(composeRuleAction(rule.getAction()));
 
@@ -63,13 +65,13 @@ QString IptablesRulesComposer::composeDestinationPorts(const QList<int>& list)
 QString IptablesRulesComposer::composeRuleAction(const Rule::Action& action)
 {
     QString actionRule = "-j ";
-    if (action == Rule::ALOW)
+    if (action==Rule::ALOW)
         actionRule += "ACCEPT";
 
-    if (action == Rule::DENY)
+    if (action==Rule::DENY)
         actionRule += "DROP";
 
-    if (action == Rule::REJECT)
+    if (action==Rule::REJECT)
         actionRule += "REJECT";
 
     return actionRule;
@@ -80,4 +82,25 @@ QString IptablesRulesComposer::composeRuleProtocol(const QString& p)
         return QString("-p %1").arg(p.toLower());
     else
         return QString();
+}
+
+QString IptablesRulesComposer::composeSourceAddress(const QString& address)
+{
+    if (isAMatchAllAddress(address))
+        return QString();
+
+    return QString("-s %1").arg(address);
+}
+
+QString IptablesRulesComposer::composeDestinationAddress(const QString& address)
+{
+    if (isAMatchAllAddress(address))
+        return QString();
+
+    return QString("-d %1").arg(address);
+}
+
+bool IptablesRulesComposer::isAMatchAllAddress(const QString& address) const
+{
+    return address.isEmpty() || address=="0/0";
 }

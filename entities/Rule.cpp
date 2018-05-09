@@ -38,7 +38,7 @@ void Rule::setAction(Rule::Action action)
 }
 
 Rule::Rule()
-        :direction(INCOMING), sourceAddr("0/0"), destinationAddr("0/0"), protocol("tcp"), action(DENY) { }
+        :direction(INCOMING), sourceAddr("0/0"), destinationAddr("0/0"), action(DENY) { }
 const QString& Rule::getSourceAddr() const
 {
     return sourceAddr;
