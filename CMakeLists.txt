@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.18.12)
 #                           GENERAL CONFIGURATION
 #-----------------------------------------------------------------------------
 project(nomad-firewall)
+cmake_policy(SET CMP0063 NEW)
 
 set(KF5_MIN_VERSION "5.30.0")
 set(QT_MIN_VERSION "5.7.0")

@@ -1,6 +1,6 @@
 set(GATEWAYS_SRCS
-    IptablesRulesComposer.cpp
-    IptablesRulesComposer.h
+    IptablesRuleGenerator.cpp
+    IptablesRuleGenerator.h
     )
 
 add_library(gateways OBJECT ${GATEWAYS_SRCS})
