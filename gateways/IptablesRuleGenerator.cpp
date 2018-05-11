@@ -17,7 +17,7 @@ QString IptablesRuleGenerator::generateRule(const Rule& rule)
     return ruleString;
 }
 
-Rule::Direction IptablesRuleGenerator::getOppositeDirection(const Rule::Direction& direction) const
+Rule::Direction IptablesRuleGenerator::getOppositeDirection(const Rule::Direction& direction)
 {
     Rule::Direction opposite;
     if (direction==Rule::INCOMING)
@@ -28,7 +28,7 @@ Rule::Direction IptablesRuleGenerator::getOppositeDirection(const Rule::Directio
     return opposite;
 }
 
-QString IptablesRuleGenerator::generateDirectionSection(const Rule::Direction& direction) const
+QString IptablesRuleGenerator::generateDirectionSection(const Rule::Direction& direction)
 {
     QString directionStr = "-A ";
     if (direction==Rule::INCOMING)
@@ -54,7 +54,7 @@ QString IptablesRuleGenerator::generateSourcePortsSection(const QList<int>& list
     return ports;
 }
 
-QString IptablesRuleGenerator::generatePortListSection(const QList<int>& list) const
+QString IptablesRuleGenerator::generatePortListSection(const QList<int>& list)
 {
     QString portList;
     for (const int& p: list)
@@ -83,7 +83,7 @@ QString IptablesRuleGenerator::generateRuleActionSection(const Rule::Action& act
     return actionRule;
 }
 
-QString IptablesRuleGenerator::translateAction(const Rule::Action& action) const
+QString IptablesRuleGenerator::translateAction(const Rule::Action& action)
 {
     QString actionString;
     if (action==Rule::ALOW)
@@ -122,7 +122,7 @@ QString IptablesRuleGenerator::generateDestinationAddressSection(const QString& 
     return QString("-d %1").arg(address);
 }
 
-bool IptablesRuleGenerator::isAMatchAllAddress(const QString& address) const
+bool IptablesRuleGenerator::isAMatchAllAddress(const QString& address)
 {
     return address.isEmpty() || address=="0/0";
 }

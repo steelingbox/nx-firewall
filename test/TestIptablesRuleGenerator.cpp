@@ -2,7 +2,7 @@
 #include <QObject>
 
 #include "../entities/Rule.h"
-#include "../backends/IptablesRuleGenerator.h"
+#include "../gateways/IptablesRuleGenerator.h"
 
 class TestIptablesRuleGenerator : public QObject {
 Q_OBJECT

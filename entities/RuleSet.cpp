@@ -23,19 +23,11 @@ RuleSet::~RuleSet()
 {
 
 }
-const QList<Rule>& RuleSet::getIncomingRules() const
+const QList<Rule>& RuleSet::getRules() const
 {
-    return incomingRules;
+    return rules;
 }
-const QList<Rule>& RuleSet::getOutgoingRules() const
+void RuleSet::setRules(const QList<Rule>& incomingRules)
 {
-    return outgoingRules;
-}
-void RuleSet::setIncomingRules(const QList<Rule>& incomingRules)
-{
-    RuleSet::incomingRules = incomingRules;
-}
-void RuleSet::setOutgoingRules(const QList<Rule>& outgoingRules)
-{
-    RuleSet::outgoingRules = outgoingRules;
+    RuleSet::rules = incomingRules;
 }

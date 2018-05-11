@@ -12,8 +12,7 @@ class RuleSet {
     Rule::Action defaultIncomingPolicy;
     Rule::Action defaultOutgoingPolicy;
 
-    QList<Rule> incomingRules;
-    QList<Rule> outgoingRules;
+    QList<Rule> rules;
 public:
     virtual ~RuleSet();
 
@@ -23,11 +22,8 @@ public:
     Rule::Action getDefaultOutgoingPolicy() const;
     void setDefaultOutgoingPolicy(Rule::Action defaultOutgoingPolicy);
 
-    void setIncomingRules(const QList<Rule>& incomingRules);
-    const QList<Rule>& getIncomingRules() const;
-
-    void setOutgoingRules(const QList<Rule>& outgoingRules);
-    const QList<Rule>& getOutgoingRules() const;
+    void setRules(const QList<Rule>& incomingRules);
+    const QList<Rule>& getRules() const;
 };
 
 #endif //NOMAD_FIREWALL_RULESET_H
