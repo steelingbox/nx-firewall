@@ -24,7 +24,6 @@ public:
       INCOMING,
       OUTGOING
     };
-
     Q_ENUM(Direction)
     Rule();
     Direction getDirection() const;

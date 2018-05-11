@@ -1,7 +1,10 @@
 set(GATEWAYS_SRCS
     IptablesRuleGenerator.cpp
     IptablesRuleGenerator.h
-    )
+    Iptables.cpp
+    Iptables.h
+    NetworkFilteringManagementTool.cpp
+    NetworkFilteringManagementTool.h)
 
 add_library(gateways OBJECT ${GATEWAYS_SRCS})
 

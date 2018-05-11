@@ -9,5 +9,8 @@ find_package(Qt5Test REQUIRED)
 add_executable(testEntities TestEntities.cpp $<TARGET_OBJECTS:entities>)
 target_link_libraries(testEntities Qt5::Test)
 
-add_executable(testGateways TestIptablesRuleGenerator.cpp $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
-target_link_libraries(testGateways Qt5::Test)
+add_executable(testIptablesRuleGenerator TestIptablesRuleGenerator.cpp $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
+target_link_libraries(testIptablesRuleGenerator Qt5::Test)
+
+add_executable(testIptable TestIptables.cpp $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
+target_link_libraries(testIptable Qt5::Test)
