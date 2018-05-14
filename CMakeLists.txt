@@ -8,6 +8,7 @@ cmake_policy(SET CMP0063 NEW)
 set(KF5_MIN_VERSION "5.30.0")
 set(QT_MIN_VERSION "5.7.0")
 
+add_definitions( -Wall -O2 -fexceptions )
 #-----------------------------------------------------------------------------
 #                              DEPENDENCIES
 #-----------------------------------------------------------------------------
