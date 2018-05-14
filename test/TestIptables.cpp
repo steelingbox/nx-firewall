@@ -56,7 +56,7 @@ private:
         allowHttp.setDirection(Rule::OUTGOING);
         allowHttp.setProtocol("tcp");
         allowHttp.setDestinationPorts({80, 443});
-        allowHttp.setAction(Rule::ALOW);
+        allowHttp.setAction(Rule::ALLOW);
 
         return allowHttp;
     }

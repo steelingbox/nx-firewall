@@ -4,7 +4,9 @@ set(GATEWAYS_SRCS
     Iptables.cpp
     Iptables.h
     NetworkFilteringManagementTool.cpp
-    NetworkFilteringManagementTool.h)
+    NetworkFilteringManagementTool.h
+    QVariantRuleSetConverter.cpp
+    QVariantRuleSetConverter.h)
 
 add_library(gateways OBJECT ${GATEWAYS_SRCS})
 

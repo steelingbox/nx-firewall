@@ -86,7 +86,7 @@ QString IptablesRuleGenerator::generateRuleActionSection(const Rule::Action& act
 QString IptablesRuleGenerator::translateAction(const Rule::Action& action)
 {
     QString actionString;
-    if (action==Rule::ALOW)
+    if (action==Rule::ALLOW)
         return "ACCEPT";
 
     if (action==Rule::DENY)

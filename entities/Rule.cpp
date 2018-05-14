@@ -20,14 +20,6 @@ void Rule::setProtocol(const QString& protocol)
 {
     Rule::protocol = protocol;
 }
-const QString& Rule::getServiceName() const
-{
-    return serviceName;
-}
-void Rule::setServiceName(const QString& service_name)
-{
-    Rule::serviceName = service_name;
-}
 Rule::Action Rule::getAction() const
 {
     return action;
@@ -38,7 +30,7 @@ void Rule::setAction(Rule::Action action)
 }
 
 Rule::Rule()
-        :direction(INCOMING), sourceAddr("0/0"), destinationAddr("0/0"), action(DENY) { }
+        :direction(INCOMING), action(DENY) { }
 
 const QString& Rule::getSourceAddr() const
 {

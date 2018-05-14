@@ -14,3 +14,6 @@ target_link_libraries(testIptablesRuleGenerator Qt5::Test)
 
 add_executable(testIptable TestIptables.cpp $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
 target_link_libraries(testIptable Qt5::Test)
+
+add_executable(testQVariantRuleSetConverter $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways> TestQVariantRuleSetConverter.cpp)
+target_link_libraries(testQVariantRuleSetConverter Qt5::Test)

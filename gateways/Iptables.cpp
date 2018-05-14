@@ -75,7 +75,7 @@ QStringList Iptables::generateIptableRules(const RuleSet& ruleSet) const
 
 bool Iptables::areReverseConnectionsPossible(const Rule::Action& oppositeChainPolicy) const
 {
-    return oppositeChainPolicy==Rule::ALOW;
+    return oppositeChainPolicy==Rule::ALLOW;
 }
 
 Rule::Action Iptables::getOppositeChainPolicy(const Rule::Action& incomingPolicy, const Rule::Action& outgoingPolicy,

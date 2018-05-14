@@ -63,7 +63,7 @@ private slots:
         QString expected = "-j DROP";
         QCOMPARE(iptablesRule, expected);
 
-        iptablesRule = generator.generateRuleActionSection(Rule::ALOW);
+        iptablesRule = generator.generateRuleActionSection(Rule::ALLOW);
         expected = "-j ACCEPT";
         QCOMPARE(iptablesRule, expected);
 
@@ -148,7 +148,7 @@ private slots:
         r.setDirection(Rule::INCOMING);
         r.setDestinationPorts({22});
         r.setProtocol("tcp");
-        r.setAction(Rule::Action::ALOW);
+        r.setAction(Rule::Action::ALLOW);
 
         IptablesRuleGeneratorWrapper generator;
         QStringList iptablesRule = generator.generateTwoWayCommunicationRules(r);
@@ -164,7 +164,7 @@ private slots:
         QString expected = "--policy INPUT DROP";
         QCOMPARE(iptablesRule, expected);
 
-        iptablesRule = generator.generateDefaultPolicy("OUTPUT", Rule::ALOW);
+        iptablesRule = generator.generateDefaultPolicy("OUTPUT", Rule::ALLOW);
         expected = "--policy OUTPUT ACCEPT";
         QCOMPARE(iptablesRule, expected);
     }

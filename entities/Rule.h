@@ -14,7 +14,7 @@ class Rule {
 Q_GADGET
 public:
     enum Action {
-      ALOW,
+      ALLOW,
       DENY,
       REJECT
     };
@@ -40,8 +40,6 @@ public:
 
     const QString& getProtocol() const;
     void setProtocol(const QString& protocol);
-    const QString& getServiceName() const;
-    void setServiceName(const QString& service_name);
     Action getAction() const;
     void setAction(Action action);
 
@@ -52,7 +50,6 @@ private:
     QString destinationAddr;
     QList<int> destinationPorts;
     QString protocol;
-    QString serviceName;
     Action action;
 };
 
