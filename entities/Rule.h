@@ -42,7 +42,8 @@ public:
     void setProtocol(const QString& protocol);
     Action getAction() const;
     void setAction(Action action);
-
+    bool operator==(const Rule& rhs) const;
+    bool operator!=(const Rule& rhs) const;
 private:
     Direction direction;
     QString sourceAddr;

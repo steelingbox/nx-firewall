@@ -64,3 +64,17 @@ void Rule::setDestinationPorts(const QList<int>& destinationPorts)
 {
     Rule::destinationPorts = destinationPorts;
 }
+bool Rule::operator==(const Rule& rhs) const
+{
+    return direction==rhs.direction &&
+            sourceAddr==rhs.sourceAddr &&
+            sourcePorts==rhs.sourcePorts &&
+            destinationAddr==rhs.destinationAddr &&
+            destinationPorts==rhs.destinationPorts &&
+            protocol==rhs.protocol &&
+            action==rhs.action;
+}
+bool Rule::operator!=(const Rule& rhs) const
+{
+    return !(rhs==*this);
+}
