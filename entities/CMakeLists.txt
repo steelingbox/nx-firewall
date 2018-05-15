@@ -4,7 +4,11 @@ set(ENTITIES_SRCS
     RuleSet.cpp
     RuleSet.h
     Service.cpp
-    Service.h)
+    Service.h
+    NetFilterTool.cpp
+    NetFilterTool.h
+    ThreeStepsFirewall.cpp
+    ThreeStepsFirewall.h)
 
 add_library(entities OBJECT ${ENTITIES_SRCS})
 

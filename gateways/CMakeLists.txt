@@ -3,8 +3,6 @@ set(GATEWAYS_SRCS
     IptablesRuleGenerator.h
     Iptables.cpp
     Iptables.h
-    NetworkFilteringManagementTool.cpp
-    NetworkFilteringManagementTool.h
     QVariantRuleSetConverter.cpp
     QVariantRuleSetConverter.h)
 

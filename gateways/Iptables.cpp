@@ -11,7 +11,7 @@
 #include "Iptables.h"
 #include <QProcess>
 #include <QStandardPaths>
-#include "NetworkFilteringManagementTool.h"
+#include "../entities/NetFilterTool.h"
 
 bool Iptables::isAvailable()
 {

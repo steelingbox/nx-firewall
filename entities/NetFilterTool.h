@@ -8,7 +8,7 @@
 #include <QObject>
 #include "../entities/RuleSet.h"
 
-class NetworkFilteringManagementTool : public QObject {
+class NetFilterTool : public QObject {
 Q_OBJECT
 
 public:

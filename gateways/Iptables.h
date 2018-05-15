@@ -5,9 +5,9 @@
 #ifndef NOMAD_FIREWALL_IPTABLES_H
 #define NOMAD_FIREWALL_IPTABLES_H
 
-#include "NetworkFilteringManagementTool.h"
+#include "../entities/NetFilterTool.h"
 
-class Iptables : public NetworkFilteringManagementTool {
+class Iptables : public NetFilterTool {
 Q_OBJECT
 public slots:
     bool isAvailable() override;
