@@ -11,6 +11,9 @@
 
 class QVariantRuleSetConverter {
 public:
+    static constexpr const char* const KEY_DEFAULT_INCOMING_POLICY = "DEFAULT_INCOMING_POLICY";
+    static constexpr const char* const KEY_DEFAULT_OUTGOING_POLICY = "DEFAULT_OUTGOING_POLICY";
+    static constexpr const char* const KEY_RULES = "RULES";
     static constexpr const char* const KEY_DIRECTION = "DIRECTION";
     static constexpr const char* const KEY_PROTOCOL = "PROTOCOL";
     static constexpr const char* const KEY_ACTION = "ACTION";
@@ -23,7 +26,7 @@ public:
 
     static QVariantMap toVariant(const RuleSet& ruleSet);
     static QVariantMap toVariant(const Rule& rule);
-    static RuleSet toRuleSet(const QVariantMap& variantMap);
+    static RuleSet toRuleSet(const QVariantMap& map);
 
     static Rule toRule(QVariantMap map);
 protected:
@@ -31,6 +34,8 @@ protected:
     static Rule::Direction getRuleDirection(const QVariantMap& map);
     static Rule::Action getRuleAction(const QVariantMap& map);
     static QList<int> getPortsList(const QList<QVariant>& variantList);
+    static Rule::Action getDefaultPolicy(const QVariantMap& map, const char* policyType);
+    static QList<Rule> getRulesList(const QVariantMap& map);
 };
 
 #endif //NOMAD_FIREWALL_QVARIANTRULESETCONVERTER_H

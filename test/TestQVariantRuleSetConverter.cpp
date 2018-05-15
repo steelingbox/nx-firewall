@@ -47,7 +47,45 @@ private slots:
         }
     }
 
+    void ruleSetToVariant()
+    {
+        auto ruleSet = getRuleSet();
+        auto expected = getRuleSetVariant();
+        auto result = QVariantRuleSetConverter::toVariant(ruleSet);
+        QCOMPARE(expected, result);
+    }
+
+    void variantToRuleSet()
+    {
+
+        auto source = getRuleSetVariant();
+        auto expected = getRuleSet();
+        auto result = QVariantRuleSetConverter::toRuleSet(source);
+        QCOMPARE(expected, result);
+    }
+
 protected:
+    QVariantMap getRuleSetVariant() const
+    {
+        QVariantMap map;
+        map["DEFAULT_INCOMING_POLICY"] = "DENY";
+        map["DEFAULT_OUTGOING_POLICY"] = "DENY";
+        QVariantList list = {getAllowIncomingHttpVariant(), getAllowSshRuleVariant()};
+        map["RULES"] = list;
+        return map;
+    }
+    RuleSet getRuleSet() const
+    {
+        RuleSet ruleSet;
+        ruleSet.setDefaultOutgoingPolicy(Rule::DENY);
+        ruleSet.setDefaultIncomingPolicy(Rule::DENY);
+
+        Rule http = getAllowIncomingHttpRule();
+        Rule ssh = getAllowOutgoingSshRule();
+
+        ruleSet.setRules({http, ssh});
+        return ruleSet;
+    }
     Rule getAllowOutgoingSshRule() const
     {
         Rule r;

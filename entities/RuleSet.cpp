@@ -31,3 +31,13 @@ void RuleSet::setRules(const QList<Rule>& incomingRules)
 {
     RuleSet::rules = incomingRules;
 }
+bool RuleSet::operator==(const RuleSet& rhs) const
+{
+    return defaultIncomingPolicy==rhs.defaultIncomingPolicy &&
+            defaultOutgoingPolicy==rhs.defaultOutgoingPolicy &&
+            rules==rhs.rules;
+}
+bool RuleSet::operator!=(const RuleSet& rhs) const
+{
+    return !(rhs==*this);
+}

@@ -9,11 +9,61 @@
 QVariantMap QVariantRuleSetConverter::toVariant(const RuleSet& ruleSet)
 {
     QVariantMap res;
+    auto actionEnum = QMetaEnum::fromType<Rule::Action>();
+    res[KEY_DEFAULT_INCOMING_POLICY] = actionEnum.valueToKey(ruleSet.getDefaultIncomingPolicy());
+    res[KEY_DEFAULT_OUTGOING_POLICY] = actionEnum.valueToKey(ruleSet.getDefaultOutgoingPolicy());
+
+    QVariantList rules;
+    for (auto rule: ruleSet.getRules())
+        rules << toVariant(rule);
+
+    res[KEY_RULES] = rules;
+
     return res;
 }
-RuleSet QVariantRuleSetConverter::toRuleSet(const QVariantMap& variantMap)
+RuleSet QVariantRuleSetConverter::toRuleSet(const QVariantMap& map)
 {
-    return RuleSet();
+
+    Rule::Action defaultIncomingPolicy = getDefaultPolicy(map, KEY_DEFAULT_INCOMING_POLICY);
+    Rule::Action defaultOutgoingPolicy = getDefaultPolicy(map, KEY_DEFAULT_OUTGOING_POLICY);
+    QList<Rule> rules = getRulesList(map);
+
+    RuleSet ruleSet;
+    ruleSet.setDefaultIncomingPolicy(defaultIncomingPolicy);
+    ruleSet.setDefaultOutgoingPolicy(defaultOutgoingPolicy);
+    ruleSet.setRules(rules);
+
+    return ruleSet;
+}
+
+QList<Rule> QVariantRuleSetConverter::getRulesList(const QVariantMap& map)
+{
+    QList<Rule> rules;
+    if (map.contains(KEY_RULES)) {
+        auto rulesVariantList = map.value(KEY_RULES).toList();
+        for (auto variant: rulesVariantList) {
+            auto rule = toRule(variant.toMap());
+            rules << rule;
+        }
+    }
+    return rules;
+}
+Rule::Action QVariantRuleSetConverter::getDefaultPolicy(const QVariantMap& map, const char* policyType)
+{
+    Rule::Action action;
+    auto actionEnum = QMetaEnum::fromType<Rule::Action>();
+    if (map.contains(policyType)) {
+        auto defaultIncomingPolicyValue = map.value(policyType).toString().toStdString().c_str();
+        bool succeeded = true;
+        action = static_cast<Rule::Action>(actionEnum
+                .keyToValue(defaultIncomingPolicyValue, &succeeded));
+        if (!succeeded)
+            throw ConversionException{};
+    }
+    else
+        throw ConversionException{};
+
+    return action;
 }
 QVariantMap QVariantRuleSetConverter::toVariant(const Rule& rule)
 {
@@ -63,7 +113,6 @@ Rule QVariantRuleSetConverter::toRule(QVariantMap map)
         r.setSourceAddr(sourceAddr);
     }
 
-
     if (map.contains(KEY_SOURCE_PORTS)) {
         auto variantList = map.value(KEY_SOURCE_PORTS).toList();
         auto sourcePorts = getPortsList(variantList);
@@ -85,7 +134,6 @@ Rule QVariantRuleSetConverter::toRule(QVariantMap map)
         auto protocol = map.value(KEY_PROTOCOL).toString();
         r.setProtocol(protocol);
     }
-
 
     return r;
 }

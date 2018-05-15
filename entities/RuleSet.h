@@ -24,6 +24,9 @@ public:
 
     void setRules(const QList<Rule>& incomingRules);
     const QList<Rule>& getRules() const;
+
+    bool operator==(const RuleSet& rhs) const;
+    bool operator!=(const RuleSet& rhs) const;
 };
 
 #endif //NOMAD_FIREWALL_RULESET_H
