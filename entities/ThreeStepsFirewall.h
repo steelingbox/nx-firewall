@@ -31,6 +31,7 @@ private:
     Profile currentProfile;
     QList<Rule> customRules;
     NetFilterTool *netfilterTool;
+    Rule getAllowIncomingOnLoRule() const;
 };
 
 #endif //NOMAD_FIREWALL_THREESTEPSFIREWALL_H

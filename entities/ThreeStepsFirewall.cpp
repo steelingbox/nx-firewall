@@ -29,10 +29,20 @@ RuleSet ThreeStepsFirewall::getStealthSetup()
     Rule allowOutgoing;
     allowOutgoing.setDirection(Rule::OUTGOING);
     allowOutgoing.setAction(Rule::ALLOW);
-    rules << allowOutgoing;
 
+    Rule allowIncomingOnLo = getAllowIncomingOnLoRule();
+
+    rules << allowOutgoing << allowIncomingOnLo;
     ruleSet.setRules(rules);
     return ruleSet;
+}
+Rule ThreeStepsFirewall::getAllowIncomingOnLoRule() const
+{
+    Rule allowIncomingOnLo;
+    allowIncomingOnLo.setInterface("lo");
+    allowIncomingOnLo.setDirection(Rule::INCOMING);
+    allowIncomingOnLo.setAction(Rule::ALLOW);
+    return allowIncomingOnLo;
 }
 RuleSet ThreeStepsFirewall::getParanoidSetup()
 {
@@ -46,8 +56,11 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     Rule allowHttp;
     allowHttp.setDirection(Rule::OUTGOING);
     allowHttp.setAction(Rule::ALLOW);
+    allowHttp.setProtocol("tcp");
     allowHttp.setDestinationPorts({80, 443});
-    rules << allowHttp;
+
+    Rule allowIncomingOnLo = getAllowIncomingOnLoRule();
+    rules << allowHttp << allowIncomingOnLo;
 
     ruleSet.setRules(rules);
     return ruleSet;
