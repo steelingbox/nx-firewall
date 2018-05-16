@@ -59,8 +59,15 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     allowHttp.setProtocol("tcp");
     allowHttp.setDestinationPorts({80, 443});
 
+    Rule allowDomain;
+    allowDomain.setDirection(Rule::OUTGOING);
+    allowDomain.setProtocol("udp");
+    allowDomain.setDestinationPorts({53});
+    allowDomain.setAction(Rule::ALLOW);
+
     Rule allowIncomingOnLo = getAllowIncomingOnLoRule();
-    rules << allowHttp << allowIncomingOnLo;
+
+    rules << allowHttp << allowIncomingOnLo << allowDomain;
 
     ruleSet.setRules(rules);
     return ruleSet;
