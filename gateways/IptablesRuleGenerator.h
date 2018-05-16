@@ -18,7 +18,8 @@ public:
     static QString generateDefaultPolicy(const QString& chain, const Rule::Action& action);
 
 protected:
-    static QString generateDirectionSection(const Rule::Direction& direction) ;
+    static QString generateDirectionSection(const Rule::Direction& direction);
+    static QString generateRuleInterfaceSection(const QString& iface);
     static QString generateSourcePortsSection(const QList<int>& list);
     static QString generatePortListSection(const QList<int>& list) ;
     static QString generateDestinationPortsSection(const QList<int>& list);

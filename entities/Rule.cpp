@@ -72,9 +72,18 @@ bool Rule::operator==(const Rule& rhs) const
             destinationAddr==rhs.destinationAddr &&
             destinationPorts==rhs.destinationPorts &&
             protocol==rhs.protocol &&
-            action==rhs.action;
+            action==rhs.action &&
+            interface == interface;
 }
 bool Rule::operator!=(const Rule& rhs) const
 {
     return !(rhs==*this);
+}
+const QString& Rule::getInterface() const
+{
+    return interface;
+}
+void Rule::setInterface(const QString& interface)
+{
+    Rule::interface = interface;
 }

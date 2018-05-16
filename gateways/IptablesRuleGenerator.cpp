@@ -4,6 +4,7 @@ QString IptablesRuleGenerator::generateRule(const Rule& rule)
 {
     QStringList ruleSections;
     ruleSections.append(generateDirectionSection(rule.getDirection()));
+    ruleSections.append(generateRuleInterfaceSection(rule.getInterface()));
     ruleSections.append(generateRuleProtocolSection(rule.getProtocol()));
     ruleSections.append(generateSourceAddressSection(rule.getSourceAddr()));
     ruleSections.append(generateSourcePortsSection(rule.getSourcePorts()));
@@ -98,6 +99,14 @@ QString IptablesRuleGenerator::translateAction(const Rule::Action& action)
     return QString();
 }
 
+QString IptablesRuleGenerator::generateRuleInterfaceSection(const QString& iface)
+{
+    if (!iface.isEmpty())
+        return QString("-i %1").arg(iface.toLower());
+    else
+        return QString();
+}
+
 QString IptablesRuleGenerator::generateRuleProtocolSection(const QString& p)
 {
     if (!p.isEmpty())
@@ -147,7 +156,7 @@ QString IptablesRuleGenerator::generateRuleForNewConnections(const Rule& rule)
     ruleSections.append(generateDestinationAddressSection(rule.getDestinationAddr()));
     ruleSections.append(generateDestinationPortsSection(rule.getDestinationPorts()));
 
-    ruleSections.append("-m conntrack --ctstate NEW,ESTABLISHED");
+    ruleSections.append("-m conntrack --ctstate NEW,ESTABLISHED,RELATED");
 
     ruleSections.append(generateRuleActionSection(rule.getAction()));
 
@@ -171,7 +180,7 @@ QString IptablesRuleGenerator::generateReverseRuleForEstablishedConnections(cons
     ruleSections.append(generateDestinationAddressSection(rule.getSourceAddr()));
     ruleSections.append(generateDestinationPortsSection(rule.getSourcePorts()));
 
-    ruleSections.append("-m conntrack --ctstate ESTABLISHED");
+    ruleSections.append("-m conntrack --ctstate ESTABLISHED,RELATED");
 
     ruleSections.append(generateRuleActionSection(rule.getAction()));
 

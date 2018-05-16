@@ -25,8 +25,8 @@ private slots:
         QStringList expected = {"--flush",
                                 "--policy INPUT DROP",
                                 "--policy OUTPUT DROP",
-                                "-A OUTPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT",
-                                "-A INPUT -p tcp -m multiport --sports 80,443 -m conntrack --ctstate ESTABLISHED -j ACCEPT"};
+                                "-A OUTPUT -p tcp -m multiport --dports 80,443 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT",
+                                "-A INPUT -p tcp -m multiport --sports 80,443 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT"};
         QCOMPARE(rules, expected);
     }
 

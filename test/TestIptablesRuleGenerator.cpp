@@ -142,6 +142,19 @@ private slots:
         QCOMPARE(iptablesRule, expected);
     }
 
+    void generateInterfaceSpecificRule()
+    {
+        Rule r;
+        r.setDirection(Rule::INCOMING);
+        r.setInterface("lo");
+        r.setAction(Rule::ALLOW);
+
+        IptablesRuleGeneratorWrapper generator;
+        auto iptablesRule = generator.generateRule(r);
+        auto expected = "-A INPUT -i lo -j ACCEPT";
+        QCOMPARE(iptablesRule, expected);
+    }
+
     void generateRulesToAllowSSHWithReplies()
     {
         Rule r;
@@ -152,8 +165,8 @@ private slots:
 
         IptablesRuleGeneratorWrapper generator;
         QStringList iptablesRule = generator.generateTwoWayCommunicationRules(r);
-        QStringList expected = {"-A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT",
-                                "-A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED -j ACCEPT"};
+        QStringList expected = {"-A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED,RELATED -j ACCEPT",
+                                "-A OUTPUT -p tcp --sport 22 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT"};
         QCOMPARE(iptablesRule, expected);
     }
 
