@@ -9,7 +9,9 @@ set(ENTITIES_SRCS
     NetFilterTool.h
     ThreeStepsFirewall.cpp
     ThreeStepsFirewall.h
-    SettingsManager.h)
+    SettingsManager.h
+    QVariantRuleSetConverter.cpp
+    QVariantRuleSetConverter.h)
 
 add_library(entities OBJECT ${ENTITIES_SRCS})
 

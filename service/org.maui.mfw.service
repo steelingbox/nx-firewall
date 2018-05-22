@@ -1,0 +1,8 @@
+[Unit]
+Description=Maui Threes Steps Firewall
+
+[Service]
+ExecStart=mfw-service
+
+[Install]
+WantedBy=multi-user.target

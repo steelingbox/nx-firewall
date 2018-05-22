@@ -3,8 +3,6 @@ set(GATEWAYS_SRCS
     IptablesRuleGenerator.h
     Iptables.cpp
     Iptables.h
-    QVariantRuleSetConverter.cpp
-    QVariantRuleSetConverter.h
     JsonSettings.cpp
     JsonSettings.h)
 

@@ -2,7 +2,7 @@
 #include <QObject>
 
 #include "../entities/RuleSet.h"
-#include "../gateways/QVariantRuleSetConverter.h"
+#include "../entities/QVariantRuleSetConverter.h"
 #include <QDebug>
 class TestQVariantRuleSetConverter : public QObject {
 Q_OBJECT

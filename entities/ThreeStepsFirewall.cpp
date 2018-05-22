@@ -8,7 +8,7 @@
 #include <QDebug>
 
 #include "ThreeStepsFirewall.h"
-#include "../gateways/QVariantRuleSetConverter.h"
+#include "../entities/QVariantRuleSetConverter.h"
 
 ThreeStepsFirewall::ThreeStepsFirewall()
         :netfilterTool(nullptr) { }
