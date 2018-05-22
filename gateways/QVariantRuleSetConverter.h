@@ -22,7 +22,9 @@ public:
     static constexpr const char* const KEY_DESTINATION_ADDR = "DESTINATION_ADDR";
     static constexpr const char* const KEY_DESTINATION_PORTS = "DESTINATION_PORTS";
 
-    struct ConversionException : public std::exception { };
+    struct ConversionException : public std::runtime_error {
+      ConversionException(const std::string& __arg = "");
+    };
 
     static QVariantMap toVariant(const RuleSet& ruleSet);
     static QVariantMap toVariant(const Rule& rule);

@@ -8,7 +8,8 @@ set(ENTITIES_SRCS
     NetFilterTool.cpp
     NetFilterTool.h
     ThreeStepsFirewall.cpp
-    ThreeStepsFirewall.h)
+    ThreeStepsFirewall.h
+    SettingsManager.h)
 
 add_library(entities OBJECT ${ENTITIES_SRCS})
 

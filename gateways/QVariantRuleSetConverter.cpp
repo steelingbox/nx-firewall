@@ -175,3 +175,5 @@ Rule::Direction QVariantRuleSetConverter::getRuleDirection(const QVariantMap& ma
 
     return direction;
 }
+QVariantRuleSetConverter::ConversionException::ConversionException(const std::string& __arg)
+        :runtime_error(__arg) { }

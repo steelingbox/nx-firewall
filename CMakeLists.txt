@@ -55,6 +55,7 @@ add_subdirectory(plugins)
 add_subdirectory(kcm)
 add_subdirectory(entities)
 add_subdirectory(gateways)
+add_subdirectory(service)
 add_subdirectory(test)
 
 #-----------------------------------------------------------------------------

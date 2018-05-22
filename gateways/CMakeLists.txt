@@ -4,7 +4,9 @@ set(GATEWAYS_SRCS
     Iptables.cpp
     Iptables.h
     QVariantRuleSetConverter.cpp
-    QVariantRuleSetConverter.h)
+    QVariantRuleSetConverter.h
+    JsonSettings.cpp
+    JsonSettings.h)
 
 add_library(gateways OBJECT ${GATEWAYS_SRCS})
 
