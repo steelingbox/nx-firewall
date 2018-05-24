@@ -8,7 +8,7 @@
 #include <QDir>
 
 #include "JsonSettings.h"
-void JsonSettings::save(const QVariantMap settings)
+void JsonSettings::save(const QVariantMap& settings)
 {
     auto settingsJson = QJsonObject::fromVariantMap(settings);
 

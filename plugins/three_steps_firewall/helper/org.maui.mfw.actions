@@ -1,0 +1,16 @@
+[Domain]
+Name=MAUI Firewall
+Icon=network-card
+URL=https://maui-project.org/
+
+[org.maui.mfw.apply]
+Name=Apply configuration
+Description=Apply current configuration.
+Policy=yes
+Persistence=session
+
+[org.maui.mfw.save]
+Name=Save configuration
+Description=Save configuration
+Policy=yes
+Persistence=session

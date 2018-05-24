@@ -10,8 +10,8 @@
 #include "ThreeStepsFirewall.h"
 #include "../entities/QVariantRuleSetConverter.h"
 
-ThreeStepsFirewall::ThreeStepsFirewall()
-        :netfilterTool(nullptr) { }
+ThreeStepsFirewall::ThreeStepsFirewall(QObject *parent)
+        :QObject(parent), netfilterTool(nullptr) { }
 
 RuleSet ThreeStepsFirewall::getPermissiveSetup()
 {
@@ -151,6 +151,7 @@ void ThreeStepsFirewall::setSettingsManager(SettingsManager* settingsManager)
 void ThreeStepsFirewall::loadSettings()
 {
     if (settingsManager) {
+        settingsManager->load();
         try {
             auto map = settingsManager->load();
             loadCustomRules(map);
@@ -163,4 +164,3 @@ void ThreeStepsFirewall::loadSettings()
     else
         qWarning() << "No settings manager set.";
 }
-

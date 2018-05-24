@@ -10,13 +10,14 @@
 #include "NetFilterTool.h"
 #include "SettingsManager.h"
 
-class ThreeStepsFirewall {
-Q_GADGET
+class ThreeStepsFirewall : public QObject {
+Q_OBJECT
+Q_PROPERTY(Profile profile MEMBER currentProfile)
 public:
     enum Profile { PERMISSIVE, STEALTH, PARANOID };
     Q_ENUM(Profile);
 
-    ThreeStepsFirewall();
+    ThreeStepsFirewall(QObject* parent = nullptr);
     Profile getCurrentProfile() const;
     void setCurrentProfile(Profile currentProfile);
 
@@ -26,7 +27,9 @@ public:
     const QList<Rule>& getCustomRules() const;
     void setCustomRules(const QList<Rule>& customRules);
 
+public slots:
     void loadSettings();
+
 protected:
     RuleSet getPermissiveSetup();
     RuleSet getStealthSetup();
@@ -36,10 +39,11 @@ private:
     Profile currentProfile;
     QList<Rule> customRules;
     NetFilterTool* netfilterTool;
-    SettingsManager *settingsManager;
+    SettingsManager* settingsManager;
     Rule getAllowIncomingOnLoRule() const;
     void loadProfile(const QVariantMap& map);
     void loadCustomRules(const QVariantMap& map);
+
 };
 
 #endif //NOMAD_FIREWALL_THREESTEPSFIREWALL_H
