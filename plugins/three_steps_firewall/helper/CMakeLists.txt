@@ -19,7 +19,8 @@ add_executable(mfw_helper MFW_helper.cpp MFW_helper.h $<TARGET_OBJECTS:entities>
 target_link_libraries(mfw_helper Qt5::Core KF5::I18n KF5::Auth )
 target_include_directories(mfw_helper PUBLIC ${PROJECT_SOURCE_DIR})
 
+kauth_install_actions(org.maui.mfw org.maui.mfw.actions)
+
 install(TARGETS mfw_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
 kauth_install_helper_files(mfw_helper org.maui.mfw root)
 
-kauth_install_actions(org.maui.mfw org.maui.mfw.actions)

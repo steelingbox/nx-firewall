@@ -2,31 +2,35 @@
 // Created by alexis on 5/23/18.
 //
 
+#include <QDebug>
+
 #include <entities/QVariantRuleSetConverter.h>
 
 #include <gateways/JsonSettings.h>
 #include <gateways/Iptables.h>
 #include "MFW_helper.h"
 
-ActionReply MFW_helper::apply(const QVariantMap settings)
+ActionReply MFW_helper::apply(const QVariantMap data)
 {
-    KAuth::ActionReply reply;
+    try {
+        auto ruleset = QVariantRuleSetConverter::toRuleSet(data);
+        Iptables iptables;
+        iptables.apply(ruleset);
+    } catch (QVariantRuleSetConverter::ConversionException ex) {
+        qWarning() << "Unable to parse input ruleset" << data;
+        return ActionReply::HelperErrorReply();
+    }
 
-    auto ruleset = QVariantRuleSetConverter::toRuleSet(settings.value("ruleset").toMap());
-    Iptables iptables;
-    iptables.apply(ruleset);
-
-    return reply;
+    return ActionReply::SuccessReply();
 }
 
 ActionReply MFW_helper::save(const QVariantMap settings)
 {
-    KAuth::ActionReply reply;
-
     JsonSettings jsonSettings("/etc/mfw_rules.json");
     jsonSettings.save(settings);
 
-    return reply;
+    return ActionReply::SuccessReply();
 }
+MFW_helper::MFW_helper() { }
 
 KAUTH_HELPER_MAIN("org.maui.mfw", MFW_helper)

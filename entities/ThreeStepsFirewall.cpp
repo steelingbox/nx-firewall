@@ -10,7 +10,7 @@
 #include "ThreeStepsFirewall.h"
 #include "../entities/QVariantRuleSetConverter.h"
 
-ThreeStepsFirewall::ThreeStepsFirewall(QObject *parent)
+ThreeStepsFirewall::ThreeStepsFirewall(QObject* parent)
         :QObject(parent), netfilterTool(nullptr) { }
 
 RuleSet ThreeStepsFirewall::getPermissiveSetup()
@@ -99,6 +99,8 @@ void ThreeStepsFirewall::setCurrentProfile(ThreeStepsFirewall::Profile currentPr
 
     if (netfilterTool)
         netfilterTool->apply(ruleSet);
+
+    emit profileChanged(currentProfile);
 }
 void ThreeStepsFirewall::setNetfilterTool(NetFilterTool* netfilterTool)
 {
@@ -135,13 +137,14 @@ void ThreeStepsFirewall::loadProfile(const QVariantMap& map)
     bool succeeded = true;
     profile = static_cast<Profile>(profileEnum.keyToValue(profileStr, &succeeded));
 
-    if (succeeded)
-        setCurrentProfile(profile);
+    if (succeeded) {
+        ThreeStepsFirewall::currentProfile = profile;
+        emit profileChanged(profile);
+    }
     else {
         qWarning() << "Unable to parse settings profile, setting PERMISSIVE mode as fallback";
         setCurrentProfile(PERMISSIVE);
     }
-
 }
 
 void ThreeStepsFirewall::setSettingsManager(SettingsManager* settingsManager)
@@ -151,7 +154,6 @@ void ThreeStepsFirewall::setSettingsManager(SettingsManager* settingsManager)
 void ThreeStepsFirewall::loadSettings()
 {
     if (settingsManager) {
-        settingsManager->load();
         try {
             auto map = settingsManager->load();
             loadCustomRules(map);

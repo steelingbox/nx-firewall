@@ -12,7 +12,7 @@
 
 class ThreeStepsFirewall : public QObject {
 Q_OBJECT
-Q_PROPERTY(Profile profile MEMBER currentProfile)
+Q_PROPERTY(Profile profile READ getCurrentProfile WRITE setCurrentProfile NOTIFY profileChanged)
 public:
     enum Profile { PERMISSIVE, STEALTH, PARANOID };
     Q_ENUM(Profile);
@@ -29,6 +29,9 @@ public:
 
 public slots:
     void loadSettings();
+
+signals:
+    void profileChanged(Profile profile);
 
 protected:
     RuleSet getPermissiveSetup();

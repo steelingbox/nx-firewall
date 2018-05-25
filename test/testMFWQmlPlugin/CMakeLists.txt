@@ -10,3 +10,13 @@ find_package(Qt5 REQUIRED COMPONENTS
 
 add_executable(testMFWQmlPlugin testMFWQmlPlugin.cpp)
 target_link_libraries(testMFWQmlPlugin Qt5::Core Qt5::Widgets Qt5::Quick)
+
+
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+    I18n
+    Auth
+    )
+
+add_executable(testKAuthHelper TestKAuthHelper.cpp)
+target_link_libraries(testKAuthHelper Qt5::Core KF5::I18n KF5::Auth)
+

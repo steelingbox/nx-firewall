@@ -18,9 +18,9 @@ void NetFilterToolKauthInterface::apply(const RuleSet& ruleSet)
 
     KAuth::Action applyAction(QLatin1String("org.maui.mfw.apply"));
     applyAction.setHelperId("org.maui.mfw");
+    applyAction.setArguments(ruleSetVariant);
 
     KAuth::ExecuteJob* job = applyAction.execute();
-    job->setProperty("ruleset", ruleSetVariant);
     connect(job, &KAuth::ExecuteJob::finished, [this](KJob* kjob) {
       auto job = qobject_cast<KAuth::ExecuteJob*>(kjob);
       if (job->error())

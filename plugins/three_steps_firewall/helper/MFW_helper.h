@@ -12,10 +12,11 @@
 using namespace KAuth;
 class MFW_helper : public QObject {
 Q_OBJECT
-public:
 
+public:
+    MFW_helper();
 public Q_SLOTS:
-    ActionReply apply(const QVariantMap settings);
+    ActionReply apply(const QVariantMap data);
     ActionReply save(const QVariantMap settings);
 
 };

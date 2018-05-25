@@ -12,7 +12,7 @@ private slots:
     void testGetBinaryPath()
     {
         IptablesWrapper wrapper;
-        QString path = wrapper.getBinaryPath();
+        QString path = wrapper.executablePath;
         QCOMPARE(path, "/sbin/iptables");
     };
 

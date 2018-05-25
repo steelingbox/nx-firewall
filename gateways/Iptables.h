@@ -9,15 +9,18 @@
 
 class Iptables : public NetFilterTool {
 Q_OBJECT
+public:
+    Iptables();
 public slots:
     bool isAvailable() override;
     void apply(const RuleSet& ruleSet) override;
 
 protected:
+    QString executablePath;
+
     QStringList generateIptablesInstructions(const RuleSet& ruleSet) const;
     void runIptableInstructions(const QStringList& iptablesInstructions) const;
 
-    QString getBinaryPath() const;
     QStringList generateIptableRules(const RuleSet& ruleSet) const;
     Rule::Action
     getOppositeChainPolicy(const Rule::Action& incomingPolicy, const Rule::Action& outgoingPolicy,

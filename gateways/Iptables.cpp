@@ -15,27 +15,30 @@
 
 bool Iptables::isAvailable()
 {
-    QString binPath = getBinaryPath();
-    return !binPath.isEmpty();
+    return !executablePath.isEmpty();
 }
 
 void Iptables::apply(const RuleSet& ruleSet)
 {
-    auto instructions = generateIptablesInstructions(ruleSet);
-    runIptableInstructions(instructions);
+    if (isAvailable()) {
+        auto instructions = generateIptablesInstructions(ruleSet);
+        runIptableInstructions(instructions);
+    }
+    else
+        qCritical() << "Unable to locate iptables executable";
 }
 
 void Iptables::runIptableInstructions(const QStringList& iptablesInstructions) const
 {
     auto iptables = new QProcess();
-    iptables->setProgram(getBinaryPath());
+    iptables->setProgram(executablePath);
 
     for (const QString& instruction: iptablesInstructions) {
         iptables->setArguments(instruction.split(" "));
         iptables->start();
         iptables->waitForFinished();
         if (iptables->exitCode()!=0)
-            qCritical() << "Unable to run:" << getBinaryPath() << instruction
+            qCritical() << "Unable to run:" << executablePath << instruction
                         << iptables->readAllStandardError();
         iptables->close();
     }
@@ -89,8 +92,10 @@ Rule::Action Iptables::getOppositeChainPolicy(const Rule::Action& incomingPolicy
     return oppositeChainPolicy;
 }
 
-QString Iptables::getBinaryPath() const
+Iptables::Iptables()
 {
-    auto binPath = QStandardPaths::findExecutable("iptables");
-    return binPath;
+    executablePath = QStandardPaths::findExecutable("iptables");
+    if (executablePath.isEmpty())
+        executablePath = QStandardPaths::findExecutable("iptables",
+                {"/sbin/", "/usr/bin/", "/usr/sbin"});
 }
