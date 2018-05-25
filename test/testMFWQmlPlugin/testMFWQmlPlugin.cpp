@@ -18,5 +18,9 @@ int main(int argc, char **argv)
     view->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test.qml"));
     view->show();
 
+    QQuickView *view2 = new QQuickView;
+    view2->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test2.qml"));
+    view2->show();
+
     return app.exec();
 }
