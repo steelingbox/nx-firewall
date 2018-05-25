@@ -86,21 +86,7 @@ ThreeStepsFirewall::Profile ThreeStepsFirewall::getCurrentProfile() const
 void ThreeStepsFirewall::setCurrentProfile(ThreeStepsFirewall::Profile currentProfile)
 {
     ThreeStepsFirewall::currentProfile = currentProfile;
-
-    RuleSet ruleSet;
-    if (currentProfile==PERMISSIVE)
-        ruleSet = getPermissiveSetup();
-
-    if (currentProfile==STEALTH)
-        ruleSet = getStealthSetup();
-
-    if (currentProfile==PARANOID)
-        ruleSet = getParanoidSetup();
-
-    if (netfilterTool)
-        netfilterTool->apply(ruleSet);
-
-    emit profileChanged(currentProfile);
+    resetProfile();
 }
 void ThreeStepsFirewall::setNetfilterTool(NetFilterTool* netfilterTool)
 {
@@ -165,4 +151,21 @@ void ThreeStepsFirewall::loadSettings()
     }
     else
         qWarning() << "No settings manager set.";
+}
+void ThreeStepsFirewall::resetProfile()
+{
+    RuleSet ruleSet;
+    if (currentProfile==PERMISSIVE)
+        ruleSet = getPermissiveSetup();
+
+    if (currentProfile==STEALTH)
+        ruleSet = getStealthSetup();
+
+    if (currentProfile==PARANOID)
+        ruleSet = getParanoidSetup();
+
+    if (netfilterTool)
+        netfilterTool->apply(ruleSet);
+
+    emit profileChanged(currentProfile);
 }

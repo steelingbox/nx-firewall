@@ -29,6 +29,7 @@ public:
 
 public slots:
     void loadSettings();
+    void resetProfile();
 
 signals:
     void profileChanged(Profile profile);
