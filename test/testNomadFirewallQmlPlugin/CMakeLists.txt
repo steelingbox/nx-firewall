@@ -8,8 +8,8 @@ find_package(Qt5 REQUIRED COMPONENTS
     Quick
     )
 
-add_executable(testMFWQmlPlugin testMFWQmlPlugin.cpp)
-target_link_libraries(testMFWQmlPlugin Qt5::Core Qt5::Widgets Qt5::Quick)
+add_executable(testNomadFirewallQmlPlugin testNomadFirewallQmlPlugin.cpp)
+target_link_libraries(testNomadFirewallQmlPlugin Qt5::Core Qt5::Widgets Qt5::Quick)
 
 
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS

@@ -2,7 +2,7 @@
 Description=Maui Threes Steps Firewall
 
 [Service]
-ExecStart=mfw-service
+ExecStart=nomad-service
 
 [Install]
 WantedBy=multi-user.target

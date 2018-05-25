@@ -10,11 +10,11 @@
 #include <QObject>
 
 using namespace KAuth;
-class MFW_helper : public QObject {
+class NomadFirewallKAuthHelper : public QObject {
 Q_OBJECT
 
 public:
-    MFW_helper();
+    NomadFirewallKAuthHelper();
 public Q_SLOTS:
     ActionReply apply(const QVariantMap data);
     ActionReply save(const QVariantMap settings);

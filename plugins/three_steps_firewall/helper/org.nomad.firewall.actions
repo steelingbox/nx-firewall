@@ -1,15 +1,15 @@
 [Domain]
-Name=MAUI Firewall
+Name=Nomad Firewall
 Icon=network-card
-URL=https://maui-project.org/
+URL=https://nomad-project.org/
 
-[org.maui.mfw.apply]
+[org.nomad.firewall.apply]
 Name=Apply configuration
 Description=Apply current configuration.
 Policy=yes
 Persistence=session
 
-[org.maui.mfw.save]
+[org.nomad.firewall.save]
 Name=Save configuration
 Description=Save configuration
 Policy=yes

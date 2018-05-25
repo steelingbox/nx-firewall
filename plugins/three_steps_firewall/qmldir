@@ -1,2 +1,2 @@
-module org.maui.mfw
-plugin mfw_plugin
+module org.nomad.firewall
+plugin nomad_firewall_qml_plugin

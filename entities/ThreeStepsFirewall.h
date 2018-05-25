@@ -48,6 +48,8 @@ private:
     void loadProfile(const QVariantMap& map);
     void loadCustomRules(const QVariantMap& map);
 
+    Rule getAllowHttpRule() const;
+    Rule getAllowDNSRule() const;
 };
 
 #endif //NOMAD_FIREWALL_THREESTEPSFIREWALL_H

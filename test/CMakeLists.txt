@@ -22,4 +22,4 @@ find_package(Qt5Network REQUIRED)
 add_executable(testThreeStepsFirewall $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways> TestTreeStepsFirewall.cpp)
 target_link_libraries(testThreeStepsFirewall Qt5::Test Qt5::Network)
 
-add_subdirectory(testMFWQmlPlugin)
+add_subdirectory(testNomadFirewallQmlPlugin)

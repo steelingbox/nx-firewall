@@ -9,13 +9,13 @@ QCommandLineParser* getParser(const QCoreApplication& app);
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
-    QCoreApplication::setApplicationName("mfw-cli");
+    QCoreApplication::setApplicationName("nomad-firewall-cli");
     QCoreApplication::setApplicationVersion("1.0");
 
     auto parser = getParser(app);
 
     if (parser->isSet("restore")) {
-        auto settings = new JsonSettings("/etc/mfw_rules.json");
+        auto settings = new JsonSettings("/etc/nomad_firewall_rules.json");
         auto iptables = new Iptables();
 
         ThreeStepsFirewall fw;

@@ -15,12 +15,12 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     )
 
 
-add_executable(mfw_helper MFW_helper.cpp MFW_helper.h $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
-target_link_libraries(mfw_helper Qt5::Core KF5::I18n KF5::Auth )
-target_include_directories(mfw_helper PUBLIC ${PROJECT_SOURCE_DIR})
+add_executable(nomad-firewall-kauth-helper NomadFirewallKAuthHelper.cpp NomadFirewallKAuthHelper.h $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
+target_link_libraries(nomad-firewall-kauth-helper Qt5::Core KF5::I18n KF5::Auth )
+target_include_directories(nomad-firewall-kauth-helper PUBLIC ${PROJECT_SOURCE_DIR})
 
-kauth_install_actions(org.maui.mfw org.maui.mfw.actions)
+kauth_install_actions(org.nomad.firewall org.nomad.firewall.actions)
 
-install(TARGETS mfw_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-kauth_install_helper_files(mfw_helper org.maui.mfw root)
+install(TARGETS nomad-firewall-kauth-helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+kauth_install_helper_files(nomad-firewall-kauth-helper org.nomad.firewall root)
 

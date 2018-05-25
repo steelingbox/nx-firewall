@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.0
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.maui.mfw 1
+import org.nomad.firewall 1
 RowLayout {
     height: 100
     width: 300

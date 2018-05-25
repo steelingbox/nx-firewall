@@ -7,8 +7,8 @@ SettingsManagerKauthInterface::SettingsManagerKauthInterface(const QString& path
 
 void SettingsManagerKauthInterface::save(const QVariantMap& settings)
 {
-    KAuth::Action applyAction(QLatin1String("org.maui.mfw.save"));
-    applyAction.setHelperId("org.maui.mfw");
+    KAuth::Action applyAction(QLatin1String("org.nomad.firewall.save"));
+    applyAction.setHelperId("org.nomad.firewall");
 
     KAuth::ExecuteJob* job = applyAction.execute();
     job->setProperty("settings", settings);

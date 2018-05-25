@@ -16,8 +16,8 @@ void NetFilterToolKauthInterface::apply(const RuleSet& ruleSet)
 {
     auto ruleSetVariant = QVariantRuleSetConverter::toVariant(ruleSet);
 
-    KAuth::Action applyAction(QLatin1String("org.maui.mfw.apply"));
-    applyAction.setHelperId("org.maui.mfw");
+    KAuth::Action applyAction(QLatin1String("org.nomad.firewall.apply"));
+    applyAction.setHelperId("org.nomad.firewall");
     applyAction.setArguments(ruleSetVariant);
 
     KAuth::ExecuteJob* job = applyAction.execute();

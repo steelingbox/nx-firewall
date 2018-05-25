@@ -5,8 +5,8 @@
 
 void testApply()
 {
-    KAuth::Action applyAction(QLatin1String("org.maui.mfw.apply"));
-    applyAction.setHelperId("org.maui.mfw");
+    KAuth::Action applyAction(QLatin1String("org.nomad.nomad.apply"));
+    applyAction.setHelperId("org.nomad.nomad");
 
     KAuth::ExecuteJob* job = applyAction.execute();
 

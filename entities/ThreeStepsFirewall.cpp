@@ -60,24 +60,30 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     QList<Rule> rules;
     rules << customRules;
 
-    Rule allowHttp;
-    allowHttp.setDirection(Rule::OUTGOING);
-    allowHttp.setAction(Rule::ALLOW);
-    allowHttp.setProtocol("tcp");
-    allowHttp.setDestinationPorts({80, 443});
+    rules << getAllowHttpRule();
+    rules << getAllowDNSRule();
+    rules << getAllowIncomingOnLoRule();
 
+    ruleSet.setRules(rules);
+    return ruleSet;
+}
+Rule ThreeStepsFirewall::getAllowDNSRule() const
+{
     Rule allowDomain;
     allowDomain.setDirection(Rule::OUTGOING);
     allowDomain.setProtocol("udp");
     allowDomain.setDestinationPorts({53});
     allowDomain.setAction(Rule::ALLOW);
-
-    Rule allowIncomingOnLo = getAllowIncomingOnLoRule();
-
-    rules << allowHttp << allowIncomingOnLo << allowDomain;
-
-    ruleSet.setRules(rules);
-    return ruleSet;
+    return allowDomain;
+}
+Rule ThreeStepsFirewall::getAllowHttpRule() const
+{
+    Rule allowHttp;
+    allowHttp.setDirection(Rule::OUTGOING);
+    allowHttp.setAction(Rule::ALLOW);
+    allowHttp.setProtocol("tcp");
+    allowHttp.setDestinationPorts({80, 443});
+    return allowHttp;
 }
 ThreeStepsFirewall::Profile ThreeStepsFirewall::getCurrentProfile() const
 {

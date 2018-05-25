@@ -8,9 +8,9 @@
 
 #include <gateways/JsonSettings.h>
 #include <gateways/Iptables.h>
-#include "MFW_helper.h"
+#include "NomadFirewallKAuthHelper.h"
 
-ActionReply MFW_helper::apply(const QVariantMap data)
+ActionReply NomadFirewallKAuthHelper::apply(const QVariantMap data)
 {
     try {
         auto ruleset = QVariantRuleSetConverter::toRuleSet(data);
@@ -24,13 +24,13 @@ ActionReply MFW_helper::apply(const QVariantMap data)
     return ActionReply::SuccessReply();
 }
 
-ActionReply MFW_helper::save(const QVariantMap settings)
+ActionReply NomadFirewallKAuthHelper::save(const QVariantMap settings)
 {
-    JsonSettings jsonSettings("/etc/mfw_rules.json");
+    JsonSettings jsonSettings("/etc/nomad_firewall_rules.json");
     jsonSettings.save(settings);
 
     return ActionReply::SuccessReply();
 }
-MFW_helper::MFW_helper() { }
+NomadFirewallKAuthHelper::NomadFirewallKAuthHelper() { }
 
-KAUTH_HELPER_MAIN("org.maui.mfw", MFW_helper)
+KAUTH_HELPER_MAIN("org.nomad.firewall", NomadFirewallKAuthHelper)
