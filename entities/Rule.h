@@ -10,8 +10,8 @@
 #include <cstdint>
 #include <linux/netfilter.h>
 
-class Rule {
-Q_GADGET
+class Rule : public QObject {
+Q_OBJECT
 public:
     enum Action {
       ALLOW,

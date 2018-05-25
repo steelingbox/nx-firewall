@@ -44,19 +44,19 @@ private:
         ruleSet.setDefaultIncomingPolicy(Rule::DENY);
         ruleSet.setDefaultOutgoingPolicy(Rule::DENY);
 
-        Rule allowHttp = getAllowHttpAndHttpsRule();
+        auto allowHttp = getAllowHttpAndHttpsRule();
 
         ruleSet.setRules({allowHttp});
         return ruleSet;
     }
 
-    Rule getAllowHttpAndHttpsRule() const
+    Rule* getAllowHttpAndHttpsRule() const
     {
-        Rule allowHttp;
-        allowHttp.setDirection(Rule::OUTGOING);
-        allowHttp.setProtocol("tcp");
-        allowHttp.setDestinationPorts({80, 443});
-        allowHttp.setAction(Rule::ALLOW);
+        auto allowHttp = new Rule();
+        allowHttp->setDirection(Rule::OUTGOING);
+        allowHttp->setProtocol("tcp");
+        allowHttp->setDestinationPorts({80, 443});
+        allowHttp->setAction(Rule::ALLOW);
 
         return allowHttp;
     }

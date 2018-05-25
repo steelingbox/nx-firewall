@@ -14,13 +14,17 @@ int main(int argc, char **argv)
 
     QFileInfo f(__FILE__);
 
-    QQuickView *view = new QQuickView;
-    view->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test.qml"));
-    view->show();
+//    QQuickView *view = new QQuickView;
+//    view->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test.qml"));
+//    view->show();
+//
+//    QQuickView *view2 = new QQuickView;
+//    view2->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test2.qml"));
+//    view2->show();
 
-    QQuickView *view2 = new QQuickView;
-    view2->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test2.qml"));
-    view2->show();
+    QQuickView *view3 = new QQuickView;
+    view3->setSource(QUrl::fromLocalFile(f.dir().absolutePath() + "/test3.qml"));
+    view3->show();
 
     return app.exec();
 }

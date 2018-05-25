@@ -24,7 +24,7 @@ protected:
     QStringList generateIptableRules(const RuleSet& ruleSet) const;
     Rule::Action
     getOppositeChainPolicy(const Rule::Action& incomingPolicy, const Rule::Action& outgoingPolicy,
-            const Rule& rule) const;
+            const Rule* rule) const;
     bool areReverseConnectionsPossible(const Rule::Action& oppositeChainPolicy) const;
 };
 

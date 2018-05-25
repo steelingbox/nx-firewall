@@ -13,6 +13,7 @@
 class ThreeStepsFirewall : public QObject {
 Q_OBJECT
 Q_PROPERTY(Profile profile READ getCurrentProfile WRITE setCurrentProfile NOTIFY profileChanged)
+Q_PROPERTY(QList<Rule*> customRules READ getCustomRules WRITE setCustomRules NOTIFY customRulesChanged)
 public:
     enum Profile { PERMISSIVE, STEALTH, PARANOID };
     Q_ENUM(Profile);
@@ -24,8 +25,8 @@ public:
     void setNetfilterTool(NetFilterTool* netfilterTool);
     void setSettingsManager(SettingsManager* settingsManager);
 
-    const QList<Rule>& getCustomRules() const;
-    void setCustomRules(const QList<Rule>& customRules);
+    const QList<Rule*>& getCustomRules() const;
+    void setCustomRules(const QList<Rule*>& customRules);
 
 public slots:
     void loadSettings();
@@ -33,6 +34,7 @@ public slots:
 
 signals:
     void profileChanged(Profile profile);
+    void customRulesChanged(QList<Rule*> customRules);
 
 protected:
     RuleSet getPermissiveSetup();
@@ -41,15 +43,15 @@ protected:
 
 private:
     Profile currentProfile;
-    QList<Rule> customRules;
+    QList<Rule*> customRules;
     NetFilterTool* netfilterTool;
     SettingsManager* settingsManager;
-    Rule getAllowIncomingOnLoRule() const;
+    Rule* getAllowIncomingOnLoRule() const;
     void loadProfile(const QVariantMap& map);
     void loadCustomRules(const QVariantMap& map);
 
-    Rule getAllowHttpRule() const;
-    Rule getAllowDNSRule() const;
+    Rule* getAllowHttpRule() const;
+    Rule* getAllowDNSRule() const;
 };
 
 #endif //NOMAD_FIREWALL_THREESTEPSFIREWALL_H

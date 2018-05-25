@@ -11,7 +11,11 @@ set(MFW_PLUGIN_SRC
     NetFilterToolKauthInterface.cpp
     NetFilterToolKauthInterface.h
     SettingsManagerKauthInterface.cpp
-    SettingsManagerKauthInterface.h RuleListModel.cpp RuleListModel.h ModuleController.cpp ModuleController.h)
+    SettingsManagerKauthInterface.h
+    RuleListModel.cpp
+    RuleListModel.h
+    ModuleController.cpp
+    ModuleController.h)
 
 add_library(nomad_firewall_qml_plugin SHARED ${MFW_PLUGIN_SRC} $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
 

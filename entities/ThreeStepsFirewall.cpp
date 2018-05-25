@@ -28,27 +28,27 @@ RuleSet ThreeStepsFirewall::getStealthSetup()
     ruleSet.setDefaultIncomingPolicy(Rule::DENY);
     ruleSet.setDefaultOutgoingPolicy(Rule::ALLOW);
 
-    QList<Rule> rules;
+    QList<Rule*> rules;
     rules << customRules;
 
     // By explicitly allowing outgoing connection we ensure that the netfilter tool will generate a reverse rule to
     // allow stabilised connection replies
-    Rule allowOutgoing;
-    allowOutgoing.setDirection(Rule::OUTGOING);
-    allowOutgoing.setAction(Rule::ALLOW);
+    auto allowOutgoing = new Rule();
+    allowOutgoing->setDirection(Rule::OUTGOING);
+    allowOutgoing->setAction(Rule::ALLOW);
 
-    Rule allowIncomingOnLo = getAllowIncomingOnLoRule();
+    auto allowIncomingOnLo = getAllowIncomingOnLoRule();
 
     rules << allowOutgoing << allowIncomingOnLo;
     ruleSet.setRules(rules);
     return ruleSet;
 }
-Rule ThreeStepsFirewall::getAllowIncomingOnLoRule() const
+Rule* ThreeStepsFirewall::getAllowIncomingOnLoRule() const
 {
-    Rule allowIncomingOnLo;
-    allowIncomingOnLo.setInterface("lo");
-    allowIncomingOnLo.setDirection(Rule::INCOMING);
-    allowIncomingOnLo.setAction(Rule::ALLOW);
+    auto allowIncomingOnLo = new Rule();
+    allowIncomingOnLo->setInterface("lo");
+    allowIncomingOnLo->setDirection(Rule::INCOMING);
+    allowIncomingOnLo->setAction(Rule::ALLOW);
     return allowIncomingOnLo;
 }
 RuleSet ThreeStepsFirewall::getParanoidSetup()
@@ -57,7 +57,7 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     ruleSet.setDefaultIncomingPolicy(Rule::DENY);
     ruleSet.setDefaultOutgoingPolicy(Rule::DENY);
 
-    QList<Rule> rules;
+    QList<Rule*> rules;
     rules << customRules;
 
     rules << getAllowHttpRule();
@@ -67,22 +67,22 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     ruleSet.setRules(rules);
     return ruleSet;
 }
-Rule ThreeStepsFirewall::getAllowDNSRule() const
+Rule* ThreeStepsFirewall::getAllowDNSRule() const
 {
-    Rule allowDomain;
-    allowDomain.setDirection(Rule::OUTGOING);
-    allowDomain.setProtocol("udp");
-    allowDomain.setDestinationPorts({53});
-    allowDomain.setAction(Rule::ALLOW);
+    auto allowDomain = new Rule();
+    allowDomain->setDirection(Rule::OUTGOING);
+    allowDomain->setProtocol("udp");
+    allowDomain->setDestinationPorts({53});
+    allowDomain->setAction(Rule::ALLOW);
     return allowDomain;
 }
-Rule ThreeStepsFirewall::getAllowHttpRule() const
+Rule* ThreeStepsFirewall::getAllowHttpRule() const
 {
-    Rule allowHttp;
-    allowHttp.setDirection(Rule::OUTGOING);
-    allowHttp.setAction(Rule::ALLOW);
-    allowHttp.setProtocol("tcp");
-    allowHttp.setDestinationPorts({80, 443});
+    auto allowHttp = new Rule();
+    allowHttp->setDirection(Rule::OUTGOING);
+    allowHttp->setAction(Rule::ALLOW);
+    allowHttp->setProtocol("tcp");
+    allowHttp->setDestinationPorts({80, 443});
     return allowHttp;
 }
 ThreeStepsFirewall::Profile ThreeStepsFirewall::getCurrentProfile() const
@@ -98,19 +98,20 @@ void ThreeStepsFirewall::setNetfilterTool(NetFilterTool* netfilterTool)
 {
     ThreeStepsFirewall::netfilterTool = netfilterTool;
 }
-const QList<Rule>& ThreeStepsFirewall::getCustomRules() const
+const QList<Rule*>& ThreeStepsFirewall::getCustomRules() const
 {
     return customRules;
 }
-void ThreeStepsFirewall::setCustomRules(const QList<Rule>& customRules)
+void ThreeStepsFirewall::setCustomRules(const QList<Rule*>& customRules)
 {
     ThreeStepsFirewall::customRules = customRules;
+    emit customRulesChanged(customRules);
 }
 
 void ThreeStepsFirewall::loadCustomRules(const QVariantMap& map)
 {
     auto rulesVariantList = map.value("rules").toList();
-    QList<Rule> ruleList;
+    QList<Rule*> ruleList;
     for (const QVariant& variant: rulesVariantList) {
         auto ruleVariant = variant.toMap();
         auto newRule = QVariantRuleSetConverter::toRule(ruleVariant);

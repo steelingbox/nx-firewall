@@ -12,7 +12,7 @@ class RuleSet {
     Rule::Action defaultIncomingPolicy;
     Rule::Action defaultOutgoingPolicy;
 
-    QList<Rule> rules;
+    QList<Rule*> rules;
 public:
     virtual ~RuleSet();
 
@@ -22,8 +22,8 @@ public:
     Rule::Action getDefaultOutgoingPolicy() const;
     void setDefaultOutgoingPolicy(Rule::Action defaultOutgoingPolicy);
 
-    void setRules(const QList<Rule>& incomingRules);
-    const QList<Rule>& getRules() const;
+    void setRules(const QList<Rule*>& incomingRules);
+    const QList<Rule*>& getRules() const;
 
     bool operator==(const RuleSet& rhs) const;
     bool operator!=(const RuleSet& rhs) const;

@@ -62,10 +62,10 @@ QStringList Iptables::generateIptableRules(const RuleSet& ruleSet) const
 {
     const auto incomingPolicy = ruleSet.getDefaultIncomingPolicy();
     const auto outgoingPolicy = ruleSet.getDefaultOutgoingPolicy();
-    const QList<Rule>& ruleList = ruleSet.getRules();
+    const QList<Rule*>& ruleList = ruleSet.getRules();
 
     QStringList rulesInstructions;
-    for (const Rule& rule: ruleList) {
+    for (const Rule* rule: ruleList) {
         auto oppositeChainPolicy = getOppositeChainPolicy(incomingPolicy, outgoingPolicy, rule);
 
         if (areReverseConnectionsPossible(oppositeChainPolicy))
@@ -82,10 +82,10 @@ bool Iptables::areReverseConnectionsPossible(const Rule::Action& oppositeChainPo
 }
 
 Rule::Action Iptables::getOppositeChainPolicy(const Rule::Action& incomingPolicy, const Rule::Action& outgoingPolicy,
-        const Rule& rule) const
+        const Rule* rule) const
 {
     Rule::Action oppositeChainPolicy;
-    if (rule.getDirection()==Rule::INCOMING)
+    if (rule->getDirection()==Rule::INCOMING)
         oppositeChainPolicy = outgoingPolicy;
     else
         oppositeChainPolicy = incomingPolicy;

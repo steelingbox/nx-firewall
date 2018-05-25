@@ -23,19 +23,26 @@ RuleSet::~RuleSet()
 {
 
 }
-const QList<Rule>& RuleSet::getRules() const
+const QList<Rule*>& RuleSet::getRules() const
 {
     return rules;
 }
-void RuleSet::setRules(const QList<Rule>& incomingRules)
+void RuleSet::setRules(const QList<Rule*>& incomingRules)
 {
     RuleSet::rules = incomingRules;
 }
 bool RuleSet::operator==(const RuleSet& rhs) const
 {
-    return defaultIncomingPolicy==rhs.defaultIncomingPolicy &&
-            defaultOutgoingPolicy==rhs.defaultOutgoingPolicy &&
-            rules==rhs.rules;
+    bool equals = defaultIncomingPolicy==rhs.defaultIncomingPolicy &&
+            defaultOutgoingPolicy==rhs.defaultOutgoingPolicy;
+    if (equals && rules.length() == rhs.rules.length()) {
+        for (int i = 0; i < rules.length() && equals; i++) {
+            equals = (*rules.at(i) == *rhs.rules.at(i));
+        }
+    } else
+        return false;
+    return equals;
+
 }
 bool RuleSet::operator!=(const RuleSet& rhs) const
 {

@@ -30,7 +30,7 @@ void Rule::setAction(Rule::Action action)
 }
 
 Rule::Rule()
-        :direction(INCOMING), action(DENY) { }
+        :QObject(), direction(INCOMING), action(DENY) { }
 
 const QString& Rule::getSourceAddr() const
 {
@@ -73,7 +73,7 @@ bool Rule::operator==(const Rule& rhs) const
             destinationPorts==rhs.destinationPorts &&
             protocol==rhs.protocol &&
             action==rhs.action &&
-            interface == interface;
+            interface==interface;
 }
 bool Rule::operator!=(const Rule& rhs) const
 {

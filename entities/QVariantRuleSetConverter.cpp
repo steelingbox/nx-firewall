@@ -26,7 +26,7 @@ RuleSet QVariantRuleSetConverter::toRuleSet(const QVariantMap& map)
 
     Rule::Action defaultIncomingPolicy = getDefaultPolicy(map, KEY_DEFAULT_INCOMING_POLICY);
     Rule::Action defaultOutgoingPolicy = getDefaultPolicy(map, KEY_DEFAULT_OUTGOING_POLICY);
-    QList<Rule> rules = getRulesList(map);
+    QList<Rule*> rules = getRulesList(map);
 
     RuleSet ruleSet;
     ruleSet.setDefaultIncomingPolicy(defaultIncomingPolicy);
@@ -36,9 +36,9 @@ RuleSet QVariantRuleSetConverter::toRuleSet(const QVariantMap& map)
     return ruleSet;
 }
 
-QList<Rule> QVariantRuleSetConverter::getRulesList(const QVariantMap& map)
+QList<Rule*> QVariantRuleSetConverter::getRulesList(const QVariantMap& map)
 {
-    QList<Rule> rules;
+    QList<Rule*> rules;
     if (map.contains(KEY_RULES)) {
         auto rulesVariantList = map.value(KEY_RULES).toList();
         for (auto variant: rulesVariantList) {
@@ -65,29 +65,29 @@ Rule::Action QVariantRuleSetConverter::getDefaultPolicy(const QVariantMap& map, 
 
     return action;
 }
-QVariantMap QVariantRuleSetConverter::toVariant(const Rule& rule)
+QVariantMap QVariantRuleSetConverter::toVariant(const Rule* rule)
 {
     QVariantMap res;
 
     auto actionEnum = QMetaEnum::fromType<Rule::Action>();
     auto directionEnum = QMetaEnum::fromType<Rule::Direction>();
 
-    res[KEY_DIRECTION] = directionEnum.valueToKey(rule.getDirection());
-    res[KEY_PROTOCOL] = rule.getProtocol();
+    res[KEY_DIRECTION] = directionEnum.valueToKey(rule->getDirection());
+    res[KEY_PROTOCOL] = rule->getProtocol();
 
-    if (!rule.getSourceAddr().isEmpty())
-        res[KEY_SOURCE_ADDR] = rule.getSourceAddr();
+    if (!rule->getSourceAddr().isEmpty())
+        res[KEY_SOURCE_ADDR] = rule->getSourceAddr();
 
-    if (!rule.getSourcePorts().isEmpty())
-        res[KEY_SOURCE_PORTS] = getPortsToVariant(rule.getSourcePorts());
+    if (!rule->getSourcePorts().isEmpty())
+        res[KEY_SOURCE_PORTS] = getPortsToVariant(rule->getSourcePorts());
 
-    if (!rule.getDestinationAddr().isEmpty())
-        res[KEY_DESTINATION_ADDR] = rule.getDestinationAddr();
+    if (!rule->getDestinationAddr().isEmpty())
+        res[KEY_DESTINATION_ADDR] = rule->getDestinationAddr();
 
-    if (!rule.getDestinationPorts().isEmpty())
-        res[KEY_DESTINATION_PORTS] = getPortsToVariant(rule.getDestinationPorts());
+    if (!rule->getDestinationPorts().isEmpty())
+        res[KEY_DESTINATION_PORTS] = getPortsToVariant(rule->getDestinationPorts());
 
-    res[KEY_ACTION] = actionEnum.valueToKey(rule.getAction());
+    res[KEY_ACTION] = actionEnum.valueToKey(rule->getAction());
 
     return res;
 }
@@ -98,44 +98,44 @@ QVariantList QVariantRuleSetConverter::getPortsToVariant(const QList<int>& ports
         portsVariant << port;
     return portsVariant;
 }
-Rule QVariantRuleSetConverter::toRule(QVariantMap map)
+Rule* QVariantRuleSetConverter::toRule(QVariantMap map)
 {
-    Rule r;
+    auto rule = new Rule();
 
     auto direction = getRuleDirection(map);
-    r.setDirection(direction);
+    rule->setDirection(direction);
 
     auto action = getRuleAction(map);
-    r.setAction(action);
+    rule->setAction(action);
 
     if (map.contains(KEY_SOURCE_ADDR)) {
         auto sourceAddr = map.value(KEY_SOURCE_ADDR).toString();
-        r.setSourceAddr(sourceAddr);
+        rule->setSourceAddr(sourceAddr);
     }
 
     if (map.contains(KEY_SOURCE_PORTS)) {
         auto variantList = map.value(KEY_SOURCE_PORTS).toList();
         auto sourcePorts = getPortsList(variantList);
-        r.setSourcePorts(sourcePorts);
+        rule->setSourcePorts(sourcePorts);
     }
 
     if (map.contains(KEY_DESTINATION_ADDR)) {
         auto destinationAddr = map.value(KEY_DESTINATION_ADDR).toString();
-        r.setDestinationAddr(destinationAddr);
+        rule->setDestinationAddr(destinationAddr);
     }
 
     if (map.contains(KEY_DESTINATION_PORTS)) {
         auto variantList = map.value(KEY_DESTINATION_PORTS).toList();
         auto destinationPorts = getPortsList(variantList);
-        r.setDestinationPorts(destinationPorts);
+        rule->setDestinationPorts(destinationPorts);
     }
 
     if (map.contains(KEY_PROTOCOL)) {
         auto protocol = map.value(KEY_PROTOCOL).toString();
-        r.setProtocol(protocol);
+        rule->setProtocol(protocol);
     }
 
-    return r;
+    return rule;
 }
 QList<int> QVariantRuleSetConverter::getPortsList(const QList<QVariant>& variantList)
 {

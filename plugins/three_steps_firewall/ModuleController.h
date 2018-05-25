@@ -5,7 +5,18 @@
 #ifndef NOMAD_FIREWALL_MODULECONTROLLER_H
 #define NOMAD_FIREWALL_MODULECONTROLLER_H
 
-class ModuleController {
+#include <QObject>
+#include <entities/ThreeStepsFirewall.h>
+#include "RuleListModel.h"
+
+class ModuleController : public QObject {
+Q_OBJECT
+    RuleListModel rulesModel;
+    ThreeStepsFirewall firewall;
+
+
+public:
+
 
 };
 

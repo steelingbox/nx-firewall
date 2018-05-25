@@ -9,7 +9,7 @@ Q_OBJECT
 private slots:
     void ruleToVariant()
     {
-        Rule r;
+        auto r = new Rule();
         QVariantMap expected;
         QVariantMap result;
 
@@ -28,19 +28,19 @@ private slots:
 
     void variantToRule()
     {
-        Rule expected;
+        Rule* expected = nullptr;
         QVariantMap source;
-        Rule result;
+        Rule* result;
         try {
             source = getAllowSshRuleVariant();
             result = QVariantRuleSetConverter::toRule(source);
             expected = getAllowOutgoingSshRule();
-            QCOMPARE(result, expected);
+            QCOMPARE(*result, *expected);
 
             source = getAllowIncomingHttpVariant();
             result = QVariantRuleSetConverter::toRule(source);
             expected = getAllowIncomingHttpRule();
-            QCOMPARE(result, expected);
+            QCOMPARE(*result, *expected);
         }
         catch (QVariantRuleSetConverter::ConversionException e) {
             QFAIL("Unexpected exception");
@@ -80,31 +80,31 @@ protected:
         ruleSet.setDefaultOutgoingPolicy(Rule::DENY);
         ruleSet.setDefaultIncomingPolicy(Rule::DENY);
 
-        Rule http = getAllowIncomingHttpRule();
-        Rule ssh = getAllowOutgoingSshRule();
+        auto http = getAllowIncomingHttpRule();
+        auto ssh = getAllowOutgoingSshRule();
 
         ruleSet.setRules({http, ssh});
         return ruleSet;
     }
-    Rule getAllowOutgoingSshRule() const
+    Rule* getAllowOutgoingSshRule() const
     {
-        Rule r;
-        r.setDirection(Rule::OUTGOING);
-        r.setProtocol("tcp");
-        r.setAction(Rule::ALLOW);
-        r.setDestinationAddr("10.0.0.1");
-        r.setDestinationPorts({22});
+        auto r = new Rule();
+        r->setDirection(Rule::OUTGOING);
+        r->setProtocol("tcp");
+        r->setAction(Rule::ALLOW);
+        r->setDestinationAddr("10.0.0.1");
+        r->setDestinationPorts({22});
         return r;
     }
 
-    Rule getAllowIncomingHttpRule() const
+    Rule* getAllowIncomingHttpRule() const
     {
-        Rule r;
-        r.setDirection(Rule::INCOMING);
-        r.setProtocol("tcp");
-        r.setAction(Rule::ALLOW);
-        r.setSourceAddr("10.0.0.0/24");
-        r.setSourcePorts({80});
+        auto r = new Rule();
+        r->setDirection(Rule::INCOMING);
+        r->setProtocol("tcp");
+        r->setAction(Rule::ALLOW);
+        r->setSourceAddr("10.0.0.0/24");
+        r->setSourcePorts({80});
         return r;
     }
 

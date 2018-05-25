@@ -1,17 +1,17 @@
 #include "IptablesRuleGenerator.h"
 
-QString IptablesRuleGenerator::generateRule(const Rule& rule)
+QString IptablesRuleGenerator::generateRule(const Rule* rule)
 {
     QStringList ruleSections;
-    ruleSections.append(generateDirectionSection(rule.getDirection()));
-    ruleSections.append(generateRuleInterfaceSection(rule.getInterface()));
-    ruleSections.append(generateRuleProtocolSection(rule.getProtocol()));
-    ruleSections.append(generateSourceAddressSection(rule.getSourceAddr()));
-    ruleSections.append(generateSourcePortsSection(rule.getSourcePorts()));
-    ruleSections.append(generateDestinationAddressSection(rule.getDestinationAddr()));
-    ruleSections.append(generateDestinationPortsSection(rule.getDestinationPorts()));
+    ruleSections.append(generateDirectionSection(rule->getDirection()));
+    ruleSections.append(generateRuleInterfaceSection(rule->getInterface()));
+    ruleSections.append(generateRuleProtocolSection(rule->getProtocol()));
+    ruleSections.append(generateSourceAddressSection(rule->getSourceAddr()));
+    ruleSections.append(generateSourcePortsSection(rule->getSourcePorts()));
+    ruleSections.append(generateDestinationAddressSection(rule->getDestinationAddr()));
+    ruleSections.append(generateDestinationPortsSection(rule->getDestinationPorts()));
 
-    ruleSections.append(generateRuleActionSection(rule.getAction()));
+    ruleSections.append(generateRuleActionSection(rule->getAction()));
 
     ruleSections.removeAll(QString());
     QString ruleString = ruleSections.join(" ");
@@ -136,7 +136,7 @@ bool IptablesRuleGenerator::isAMatchAllAddress(const QString& address)
     return address.isEmpty() || address=="0/0";
 }
 
-QStringList IptablesRuleGenerator::generateTwoWayCommunicationRules(const Rule& rule)
+QStringList IptablesRuleGenerator::generateTwoWayCommunicationRules(const Rule* rule)
 {
     QStringList rules;
 
@@ -146,43 +146,43 @@ QStringList IptablesRuleGenerator::generateTwoWayCommunicationRules(const Rule& 
     return rules;
 }
 
-QString IptablesRuleGenerator::generateRuleForNewConnections(const Rule& rule)
+QString IptablesRuleGenerator::generateRuleForNewConnections(const Rule* rule)
 {
     QStringList ruleSections;
-    ruleSections.append(generateDirectionSection(rule.getDirection()));
-    ruleSections.append(generateRuleProtocolSection(rule.getProtocol()));
-    ruleSections.append(generateSourceAddressSection(rule.getSourceAddr()));
-    ruleSections.append(generateSourcePortsSection(rule.getSourcePorts()));
-    ruleSections.append(generateDestinationAddressSection(rule.getDestinationAddr()));
-    ruleSections.append(generateDestinationPortsSection(rule.getDestinationPorts()));
+    ruleSections.append(generateDirectionSection(rule->getDirection()));
+    ruleSections.append(generateRuleProtocolSection(rule->getProtocol()));
+    ruleSections.append(generateSourceAddressSection(rule->getSourceAddr()));
+    ruleSections.append(generateSourcePortsSection(rule->getSourcePorts()));
+    ruleSections.append(generateDestinationAddressSection(rule->getDestinationAddr()));
+    ruleSections.append(generateDestinationPortsSection(rule->getDestinationPorts()));
 
     ruleSections.append("-m conntrack --ctstate NEW,ESTABLISHED,RELATED");
 
-    ruleSections.append(generateRuleActionSection(rule.getAction()));
+    ruleSections.append(generateRuleActionSection(rule->getAction()));
 
     ruleSections.removeAll(QString());
     QString ruleString = ruleSections.join(" ");
     return ruleString;
 }
 
-QString IptablesRuleGenerator::generateReverseRuleForEstablishedConnections(const Rule& rule)
+QString IptablesRuleGenerator::generateReverseRuleForEstablishedConnections(const Rule* rule)
 {
     QStringList ruleSections;
-    const Rule::Direction opositeDirection = getOppositeDirection(rule.getDirection());
+    const Rule::Direction opositeDirection = getOppositeDirection(rule->getDirection());
     ruleSections.append(generateDirectionSection(opositeDirection));
 
-    ruleSections.append(generateRuleProtocolSection(rule.getProtocol()));
+    ruleSections.append(generateRuleProtocolSection(rule->getProtocol()));
 
     // Notice that source and destination values are switched
-    ruleSections.append(generateSourceAddressSection(rule.getDestinationAddr()));
-    ruleSections.append(generateSourcePortsSection(rule.getDestinationPorts()));
+    ruleSections.append(generateSourceAddressSection(rule->getDestinationAddr()));
+    ruleSections.append(generateSourcePortsSection(rule->getDestinationPorts()));
 
-    ruleSections.append(generateDestinationAddressSection(rule.getSourceAddr()));
-    ruleSections.append(generateDestinationPortsSection(rule.getSourcePorts()));
+    ruleSections.append(generateDestinationAddressSection(rule->getSourceAddr()));
+    ruleSections.append(generateDestinationPortsSection(rule->getSourcePorts()));
 
     ruleSections.append("-m conntrack --ctstate ESTABLISHED,RELATED");
 
-    ruleSections.append(generateRuleActionSection(rule.getAction()));
+    ruleSections.append(generateRuleActionSection(rule->getAction()));
 
     ruleSections.removeAll(QString());
     QString ruleString = ruleSections.join(" ");

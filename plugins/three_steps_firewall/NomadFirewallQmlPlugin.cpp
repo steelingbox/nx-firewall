@@ -31,5 +31,5 @@ void NomadFirewallQmlPlugin::registerTypes(const char* uri)
     Q_ASSERT(uri==QLatin1String("org.nomad.firewall"));
 
     qmlRegisterSingletonType<ThreeStepsFirewall>(uri, 1, 0, "ThreeStepsFirewall", three_steps_firewall_singletontype_provider);
-//    qmlRegisterUncreatableType(uri, 1, 0, "RuleListModel", "RuleListModel can't be instantiated");
+    qmlRegisterType<Rule>(uri, 1, 0, "Rule");
 }

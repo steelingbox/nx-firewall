@@ -117,11 +117,11 @@ private slots:
 
     void generateBlockIncomingTcpOnPortRule()
     {
-        Rule r;
-        r.setDirection(Rule::INCOMING);
-        r.setDestinationPorts({21});
-        r.setAction(Rule::Action::DENY);
-        r.setProtocol("tcp");
+        auto r = new Rule();
+        r->setDirection(Rule::INCOMING);
+        r->setDestinationPorts({21});
+        r->setAction(Rule::Action::DENY);
+        r->setProtocol("tcp");
 
         IptablesRuleGeneratorWrapper generator;
         auto iptablesRule = generator.generateRule(r);
@@ -131,10 +131,10 @@ private slots:
 
     void generateBlockAddressRule()
     {
-        Rule r;
-        r.setDirection(Rule::INCOMING);
-        r.setSourceAddr("15.15.15.15");
-        r.setAction(Rule::Action::DENY);
+        auto r = new Rule();
+        r->setDirection(Rule::INCOMING);
+        r->setSourceAddr("15.15.15.15");
+        r->setAction(Rule::Action::DENY);
 
         IptablesRuleGeneratorWrapper generator;
         auto iptablesRule = generator.generateRule(r);
@@ -144,10 +144,10 @@ private slots:
 
     void generateInterfaceSpecificRule()
     {
-        Rule r;
-        r.setDirection(Rule::INCOMING);
-        r.setInterface("lo");
-        r.setAction(Rule::ALLOW);
+        auto r = new Rule();
+        r->setDirection(Rule::INCOMING);
+        r->setInterface("lo");
+        r->setAction(Rule::ALLOW);
 
         IptablesRuleGeneratorWrapper generator;
         auto iptablesRule = generator.generateRule(r);
@@ -157,11 +157,11 @@ private slots:
 
     void generateRulesToAllowSSHWithReplies()
     {
-        Rule r;
-        r.setDirection(Rule::INCOMING);
-        r.setDestinationPorts({22});
-        r.setProtocol("tcp");
-        r.setAction(Rule::Action::ALLOW);
+        auto r = new Rule();
+        r->setDirection(Rule::INCOMING);
+        r->setDestinationPorts({22});
+        r->setProtocol("tcp");
+        r->setAction(Rule::Action::ALLOW);
 
         IptablesRuleGeneratorWrapper generator;
         QStringList iptablesRule = generator.generateTwoWayCommunicationRules(r);

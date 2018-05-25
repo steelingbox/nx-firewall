@@ -13,8 +13,8 @@
 class IptablesRuleGenerator {
 
 public:
-    static QString generateRule(const Rule& rule);
-    static QStringList generateTwoWayCommunicationRules(const Rule& rule);
+    static QString generateRule(const Rule* rule);
+    static QStringList generateTwoWayCommunicationRules(const Rule* rule);
     static QString generateDefaultPolicy(const QString& chain, const Rule::Action& action);
 
 protected:
@@ -30,8 +30,8 @@ protected:
     static bool isAMatchAllAddress(const QString& address) ;
     static Rule::Direction getOppositeDirection(const Rule::Direction& direction) ;
 
-    static QString generateRuleForNewConnections(const Rule& rule);
-    static QString generateReverseRuleForEstablishedConnections(const Rule& rule);
+    static QString generateRuleForNewConnections(const Rule* rule);
+    static QString generateReverseRuleForEstablishedConnections(const Rule* rule);
     static QString translateAction(const Rule::Action& action);
 };
 

@@ -27,17 +27,17 @@ public:
     };
 
     static QVariantMap toVariant(const RuleSet& ruleSet);
-    static QVariantMap toVariant(const Rule& rule);
+    static QVariantMap toVariant(const Rule* rule);
     static RuleSet toRuleSet(const QVariantMap& map);
 
-    static Rule toRule(QVariantMap map);
+    static Rule* toRule(QVariantMap map);
 protected:
     static QVariantList getPortsToVariant(const QList<int>& portsList);
     static Rule::Direction getRuleDirection(const QVariantMap& map);
     static Rule::Action getRuleAction(const QVariantMap& map);
     static QList<int> getPortsList(const QList<QVariant>& variantList);
     static Rule::Action getDefaultPolicy(const QVariantMap& map, const char* policyType);
-    static QList<Rule> getRulesList(const QVariantMap& map);
+    static QList<Rule*> getRulesList(const QVariantMap& map);
 };
 
 #endif //NOMAD_FIREWALL_QVARIANTRULESETCONVERTER_H
