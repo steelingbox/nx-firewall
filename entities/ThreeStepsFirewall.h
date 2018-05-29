@@ -12,8 +12,6 @@
 
 class ThreeStepsFirewall : public QObject {
 Q_OBJECT
-Q_PROPERTY(Profile profile READ getCurrentProfile WRITE setCurrentProfile NOTIFY profileChanged)
-Q_PROPERTY(QList<Rule*> customRules READ getCustomRules WRITE setCustomRules NOTIFY customRulesChanged)
 public:
     enum Profile { PERMISSIVE, STEALTH, PARANOID };
     Q_ENUM(Profile);

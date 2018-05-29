@@ -11,7 +11,16 @@
 #include <linux/netfilter.h>
 
 class Rule : public QObject {
-Q_OBJECT
+    Q_OBJECT
+    Q_PROPERTY(Direction direction READ getDirection WRITE setDirection)
+    Q_PROPERTY(QString sourceAddr READ getSourceAddr WRITE setSourceAddr)
+    Q_PROPERTY(QList<int> sourcePorts READ getSourcePorts WRITE setSourcePorts)
+    Q_PROPERTY(QString destinationAddr READ getDestinationAddr WRITE setDestinationAddr)
+    Q_PROPERTY(QList<int> destinationPorts READ getDestinationPorts WRITE setDestinationPorts)
+    Q_PROPERTY(QString protocol READ getProtocol WRITE setProtocol)
+    Q_PROPERTY(QString iface READ getInterface WRITE setInterface)
+    Q_PROPERTY(Action action READ getAction WRITE setAction)
+
 public:
     enum Action {
       ALLOW,

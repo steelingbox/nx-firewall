@@ -7,11 +7,12 @@
 #include "NetFilterToolKauthInterface.h"
 #include "SettingsManagerKauthInterface.h"
 #include "RuleListModel.h"
+#include "ModuleController.h"
 
 #include <QtQml/QtQml>
 
 // Second, define the singleton type provider function (callback).
-static QObject *three_steps_firewall_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+static QObject *firewall_controller_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
@@ -22,7 +23,11 @@ static QObject *three_steps_firewall_singletontype_provider(QQmlEngine *engine, 
 
     fw->setNetfilterTool(netfilter);
     fw->setSettingsManager(settings);
-    return fw;
+
+    auto moduleController = new ModuleController();
+    moduleController->setFirewall(fw);
+
+    return moduleController;
 }
 
 
@@ -30,6 +35,6 @@ void NomadFirewallQmlPlugin::registerTypes(const char* uri)
 {
     Q_ASSERT(uri==QLatin1String("org.nomad.firewall"));
 
-    qmlRegisterSingletonType<ThreeStepsFirewall>(uri, 1, 0, "ThreeStepsFirewall", three_steps_firewall_singletontype_provider);
+    qmlRegisterSingletonType<ModuleController>(uri, 1, 0, "Controller", firewall_controller_singletontype_provider);
     qmlRegisterType<Rule>(uri, 1, 0, "Rule");
 }
