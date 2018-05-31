@@ -6,6 +6,7 @@
 
 #include <entities/QVariantRuleSetConverter.h>
 
+#include <entities/ThreeStepsFirewall.h>
 #include <gateways/JsonSettings.h>
 #include <gateways/Iptables.h>
 #include "NomadFirewallKAuthHelper.h"
@@ -13,11 +14,11 @@
 ActionReply NomadFirewallKAuthHelper::apply(const QVariantMap data)
 {
     try {
-        auto ruleset = QVariantRuleSetConverter::toRuleSet(data);
         Iptables iptables;
+        auto ruleset = QVariantRuleSetConverter::toRuleSet(data);
         iptables.apply(ruleset);
     } catch (QVariantRuleSetConverter::ConversionException ex) {
-        qWarning() << "Unable to parse input ruleset" << data;
+        qCritical() << "Unable to parse input ruleset" << data;
         return ActionReply::HelperErrorReply();
     }
 
@@ -28,6 +29,13 @@ ActionReply NomadFirewallKAuthHelper::save(const QVariantMap settings)
 {
     JsonSettings jsonSettings("/etc/nomad_firewall_rules.json");
     jsonSettings.save(settings);
+
+    Iptables iptables;
+
+    ThreeStepsFirewall fw;
+    fw.setNetfilterTool(&iptables);
+    fw.loadSettings(settings);
+    fw.applySettings();
 
     return ActionReply::SuccessReply();
 }

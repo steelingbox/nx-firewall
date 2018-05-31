@@ -9,9 +9,9 @@ void SettingsManagerKauthInterface::save(const QVariantMap& settings)
 {
     KAuth::Action applyAction(QLatin1String("org.nomad.firewall.save"));
     applyAction.setHelperId("org.nomad.firewall");
+    applyAction.setArguments(settings);
 
     KAuth::ExecuteJob* job = applyAction.execute();
-    job->setProperty("settings", settings);
     QObject::connect(job, &KAuth::ExecuteJob::finished, [this](KJob* kjob) {
       auto job = qobject_cast<KAuth::ExecuteJob*>(kjob);
       if (job->error())

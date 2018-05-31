@@ -28,7 +28,9 @@ public:
 
 public slots:
     void loadSettings();
-    void resetProfile();
+    void loadSettings(const QVariantMap &settings);
+    void saveSettings();
+    void applySettings();
 
 signals:
     void profileChanged(Profile profile);

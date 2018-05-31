@@ -17,6 +17,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Auth
     )
 
-add_executable(testKAuthHelper TestKAuthHelper.cpp)
+add_executable(testKAuthHelper TestKAuthHelper.cpp  $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways>)
 target_link_libraries(testKAuthHelper Qt5::Core KF5::I18n KF5::Auth)
-
+target_include_directories(testKAuthHelper PUBLIC ${PROJECT_SOURCE_DIR})

@@ -52,7 +52,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Werror -O2")
 #                               SOURCES
 #-----------------------------------------------------------------------------
 add_subdirectory(plugins)
-#add_subdirectory(kcm)
+add_subdirectory(kcm)
 add_subdirectory(entities)
 add_subdirectory(gateways)
 add_subdirectory(service)

@@ -1,22 +1,37 @@
 //
 // Created by alexis on 5/25/18.
 //
-
+#include <QDebug>
 #include "ModuleController.h"
 ModuleController::ModuleController(QObject* parent)
-        :QObject(parent), rulesModel(new RuleListModel()) { }
+        :QObject(parent), rulesModel(new RuleListModel()) {
+
+    connect(rulesModel, &RuleListModel::modelReset, this, &ModuleController::updateIsInSync, Qt::DirectConnection);
+    connect(rulesModel, &RuleListModel::rowsInserted, this, &ModuleController::updateIsInSync, Qt::DirectConnection);
+    connect(rulesModel, &RuleListModel::rowsRemoved, this, &ModuleController::updateIsInSync, Qt::DirectConnection);
+    connect(rulesModel, &RuleListModel::dataChanged, this, &ModuleController::updateIsInSync, Qt::DirectConnection);
+}
 
 void ModuleController::applyConfig()
 {
     firewall->setCustomRules(rulesModel->getRules());
     firewall->setCurrentProfile(profile);
 
-    firewall->resetProfile();
+    firewall->saveSettings();
 }
 void ModuleController::resetConfig()
 {
     setProfile(firewall->getCurrentProfile());
     rulesModel->setRules(firewall->getCustomRules());
+}
+
+void ModuleController::updateIsInSync() {
+    auto oldSync = sync;
+    sync = (profile == firewall->getCurrentProfile()) &&
+            (rulesModel->getRules() == firewall->getCustomRules());
+
+    if (oldSync != sync)
+        emit isInSyncChanged(sync);
 }
 const ThreeStepsFirewall* ModuleController::getFirewall() const
 {
@@ -24,14 +39,17 @@ const ThreeStepsFirewall* ModuleController::getFirewall() const
 }
 void ModuleController::setFirewall(ThreeStepsFirewall* firewall)
 {
-    ModuleController::firewall = firewall;
     disconnect(this, &ModuleController::profileChanged, nullptr, nullptr);
-//    disconnect(this, &ModuleController::rulesChanged, nullptr, nullptr);
 
     connect(firewall, &ThreeStepsFirewall::profileChanged, this, &ModuleController::profileChanged);
-//    connect(firewall, &ThreeStepsFirewall::customRulesChanged, [this]() {
-//      emit rulesChanged(getRuleListProperty());
-//    });
+    connect(this, &ModuleController::profileChanged, this, &ModuleController::updateIsInSync, Qt::DirectConnection);
+
+    ModuleController::firewall = firewall;
+
+    firewall->loadSettings();
+
+    setProfile(firewall->getCurrentProfile());
+    rulesModel->setRules(firewall->getCustomRules());
 }
 ThreeStepsFirewall::Profile ModuleController::getProfile() const
 {
@@ -46,4 +64,9 @@ void ModuleController::setProfile(ThreeStepsFirewall::Profile profile)
 RuleListModel* ModuleController::getRulesModel() const
 {
     return rulesModel;
+}
+
+bool ModuleController::isInSync() const
+{
+    return sync;
 }

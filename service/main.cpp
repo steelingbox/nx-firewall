@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         fw.setNetfilterTool(iptables);
 
         fw.loadSettings();
-        fw.resetProfile();
+        fw.applySettings();
 
         return 0;
     }

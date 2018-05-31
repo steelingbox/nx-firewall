@@ -92,7 +92,7 @@ ThreeStepsFirewall::Profile ThreeStepsFirewall::getCurrentProfile() const
 void ThreeStepsFirewall::setCurrentProfile(ThreeStepsFirewall::Profile currentProfile)
 {
     ThreeStepsFirewall::currentProfile = currentProfile;
-    resetProfile();
+    emit profileChanged(currentProfile);
 }
 void ThreeStepsFirewall::setNetfilterTool(NetFilterTool* netfilterTool)
 {
@@ -159,7 +159,32 @@ void ThreeStepsFirewall::loadSettings()
     else
         qWarning() << "No settings manager set.";
 }
-void ThreeStepsFirewall::resetProfile()
+
+void ThreeStepsFirewall::saveSettings()
+{
+    if (settingsManager) {
+        try {
+            QVariantMap map;
+
+            auto profileEnum = QMetaEnum::fromType<Profile>();
+            map["profile"] = profileEnum.key(currentProfile);
+
+            QVariantList variantRules;
+            for (auto rule: customRules)
+                variantRules << QVariantRuleSetConverter::toVariant(rule);
+
+            map["rules"] = variantRules;
+
+            settingsManager->save(map);
+        }
+        catch (QVariantRuleSetConverter::ConversionException exception) {
+            qWarning() << "Malformed settings file";
+        }
+    }
+    else
+        qWarning() << "No settings manager set.";
+}
+void ThreeStepsFirewall::applySettings()
 {
     RuleSet ruleSet;
     if (currentProfile==PERMISSIVE)
@@ -173,6 +198,14 @@ void ThreeStepsFirewall::resetProfile()
 
     if (netfilterTool)
         netfilterTool->apply(ruleSet);
-
-    emit profileChanged(currentProfile);
+}
+void ThreeStepsFirewall::loadSettings(const QVariantMap& settings)
+{
+    try {
+        loadCustomRules(settings);
+        loadProfile(settings);
+    }
+    catch (QVariantRuleSetConverter::ConversionException exception) {
+        qWarning() << "Malformed settings file";
+    }
 }

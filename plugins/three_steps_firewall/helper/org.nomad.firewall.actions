@@ -6,11 +6,11 @@ URL=https://nomad-project.org/
 [org.nomad.firewall.apply]
 Name=Apply configuration
 Description=Apply current configuration.
-Policy=yes
+Policy=auth_admin
 Persistence=session
 
 [org.nomad.firewall.save]
 Name=Save configuration
 Description=Save configuration
-Policy=yes
+Policy=auth_admin
 Persistence=session

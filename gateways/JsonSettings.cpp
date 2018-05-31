@@ -2,6 +2,7 @@
 // Created by alexis on 5/17/18.
 //
 
+#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QFile>
@@ -10,18 +11,14 @@
 #include "JsonSettings.h"
 void JsonSettings::save(const QVariantMap& settings)
 {
-    auto settingsJson = QJsonObject::fromVariantMap(settings);
-
-    QJsonDocument d;
-    d.setObject(settingsJson);
+    auto d = QJsonDocument::fromVariant(settings);
     auto data = d.toJson();
-
-    QDir parent(path);
-    parent.mkpath(parent.dirName());
 
     QFile f(path);
     if (f.open(QIODevice::WriteOnly))
         f.write(data);
+    else
+        qCritical() << "Unable to write settings to " << path;
 }
 const QVariantMap JsonSettings::load()
 {
@@ -31,7 +28,8 @@ const QVariantMap JsonSettings::load()
         auto settingsJson = QJsonDocument::fromJson(data).object();
         auto settings = settingsJson.toVariantMap();
         return settings;
-    }
+    } else
+        qCritical() << "Unable to read settings from " << path;
     return QVariantMap();
 }
 JsonSettings::JsonSettings(const QString& path)

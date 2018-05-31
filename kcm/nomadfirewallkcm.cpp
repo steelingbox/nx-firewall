@@ -21,7 +21,7 @@ NomadFirewallKCM::NomadFirewallKCM(QObject *parent, const QVariantList &args) :
                                        "0.1", QString(), KAboutLicense::GPL_V3);
     about->addAuthor(i18n("Alexis López Zubieta"), QString(), "azubieta90@gmail.com");
     setAboutData(about);
-    setButtons(Help | Apply | Default);
+    setButtons(Help | Apply );
 }
 
 NomadFirewallKCM::~NomadFirewallKCM()
@@ -29,4 +29,15 @@ NomadFirewallKCM::~NomadFirewallKCM()
 
 }
 
+void NomadFirewallKCM::save()  {
+    emit saveRequested();
+}
+
+void NomadFirewallKCM::load()  {
+    emit loadRequested();
+}
+
+void NomadFirewallKCM::defaults()  {
+    emit defaultsResetRequested();
+}
 #include "nomadfirewallkcm.moc"

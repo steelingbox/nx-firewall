@@ -15,9 +15,12 @@ class ModuleController : public QObject {
 Q_OBJECT
     Q_PROPERTY(ThreeStepsFirewall::Profile profile READ getProfile WRITE setProfile NOTIFY profileChanged)
     Q_PROPERTY(RuleListModel* rules READ getRulesModel NOTIFY rulesChanged)
+    Q_PROPERTY(bool isInSync READ isInSync NOTIFY isInSyncChanged)
     ThreeStepsFirewall* firewall;
     ThreeStepsFirewall::Profile profile;
     RuleListModel *rulesModel;
+    bool sync;
+
 public:
     ModuleController(QObject* parent = nullptr);
     const ThreeStepsFirewall* getFirewall() const;
@@ -25,11 +28,11 @@ public:
     ThreeStepsFirewall::Profile getProfile() const;
     void setProfile(ThreeStepsFirewall::Profile profile);
     RuleListModel* getRulesModel() const;
+    bool isInSync() const;
 
 public slots:
     void applyConfig();
     void resetConfig();
-
 
 signals:
     void profileChanged(ThreeStepsFirewall::Profile profile);
@@ -37,6 +40,10 @@ signals:
 
 
     bool isInRange(int index) const;
+    void isInSyncChanged(bool isInSync);
+
+protected slots:
+    void updateIsInSync();
 };
 
 #endif //NOMAD_FIREWALL_MODULECONTROLLER_H
