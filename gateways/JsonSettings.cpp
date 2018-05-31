@@ -34,3 +34,6 @@ const QVariantMap JsonSettings::load()
 }
 JsonSettings::JsonSettings(const QString& path)
         :path(path) { }
+JsonSettings::JsonSettings(): path(SettingsManager::SETTINGS_PATH)
+{
+}

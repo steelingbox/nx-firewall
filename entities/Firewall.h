@@ -10,13 +10,13 @@
 #include "NetFilterTool.h"
 #include "SettingsManager.h"
 
-class ThreeStepsFirewall : public QObject {
+class Firewall : public QObject {
 Q_OBJECT
 public:
     enum Profile { PERMISSIVE, STEALTH, PARANOID };
     Q_ENUM(Profile);
 
-    ThreeStepsFirewall(QObject* parent = nullptr);
+    explicit Firewall(QObject* parent = nullptr);
     Profile getCurrentProfile() const;
     void setCurrentProfile(Profile currentProfile);
 
@@ -27,19 +27,18 @@ public:
     void setCustomRules(const QList<Rule*>& customRules);
 
 public slots:
-    void loadSettings();
-    void loadSettings(const QVariantMap &settings);
-    void saveSettings();
-    void applySettings();
+    void setSettings(const QVariantMap& settings);
+    QVariantMap getSettings() const;
+    RuleSet getRuleSet() const;
 
 signals:
     void profileChanged(Profile profile);
     void customRulesChanged(QList<Rule*> customRules);
 
 protected:
-    RuleSet getPermissiveSetup();
-    RuleSet getStealthSetup();
-    RuleSet getParanoidSetup();
+    RuleSet getPermissiveSetup() const;
+    RuleSet getStealthSetup() const;
+    RuleSet getParanoidSetup() const;
 
 private:
     Profile currentProfile;

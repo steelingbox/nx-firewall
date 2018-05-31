@@ -3,8 +3,7 @@
 //
 
 #include "NomadFirewallQmlPlugin.h"
-#include <entities/ThreeStepsFirewall.h>
-#include "NetFilterToolKauthInterface.h"
+#include <entities/Firewall.h>
 #include "SettingsManagerKauthInterface.h"
 #include "RuleListModel.h"
 #include "ModuleController.h"
@@ -17,16 +16,9 @@ static QObject *firewall_controller_singletontype_provider(QQmlEngine *engine, Q
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
 
-    auto fw = new ThreeStepsFirewall();
-    auto netfilter = new NetFilterToolKauthInterface();
-    auto settings = new SettingsManagerKauthInterface("/etc/nomad_firewall_rules.json");
-
-    fw->setNetfilterTool(netfilter);
-    fw->setSettingsManager(settings);
-
     auto moduleController = new ModuleController();
-    moduleController->setFirewall(fw);
-
+    moduleController->setSettingsManager(new JsonSettings());
+    moduleController->resetConfig();
     return moduleController;
 }
 

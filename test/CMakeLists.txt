@@ -19,7 +19,7 @@ add_executable(testQVariantRuleSetConverter $<TARGET_OBJECTS:entities> TestQVari
 target_link_libraries(testQVariantRuleSetConverter Qt5::Test)
 
 find_package(Qt5Network REQUIRED)
-add_executable(testThreeStepsFirewall $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways> TestTreeStepsFirewall.cpp)
-target_link_libraries(testThreeStepsFirewall Qt5::Test Qt5::Network)
+add_executable(testFirewall $<TARGET_OBJECTS:entities> $<TARGET_OBJECTS:gateways> TestFirewall.cpp)
+target_link_libraries(testFirewall Qt5::Test Qt5::Network)
 
 add_subdirectory(testNomadFirewallQmlPlugin)

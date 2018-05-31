@@ -8,8 +8,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 set(MFW_PLUGIN_SRC
     NomadFirewallQmlPlugin.cpp
     NomadFirewallQmlPlugin.h
-    NetFilterToolKauthInterface.cpp
-    NetFilterToolKauthInterface.h
     SettingsManagerKauthInterface.cpp
     SettingsManagerKauthInterface.h
     RuleListModel.cpp

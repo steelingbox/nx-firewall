@@ -10,7 +10,8 @@
 class JsonSettings : public SettingsManager {
     QString path;
 public:
-    JsonSettings(const QString& path);
+    JsonSettings();
+    explicit JsonSettings(const QString& path);
     void save(const QVariantMap& settings) override;
     const QVariantMap load() override;
 };

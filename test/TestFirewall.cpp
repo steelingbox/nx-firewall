@@ -7,10 +7,10 @@
 #include <QNetworkReply>
 #include <QTcpSocket>
 
-#include "../entities/ThreeStepsFirewall.h"
+#include "../entities/Firewall.h"
 #include "../gateways/Iptables.h"
 
-class TestTreeStepsFirewall : public QObject {
+class TestFirewall : public QObject {
 Q_OBJECT
     QNetworkAccessManager* manager;
 private slots:
@@ -21,10 +21,10 @@ private slots:
     void permissive()
     {
         Iptables iptables;
-        ThreeStepsFirewall firewall;
+        Firewall firewall;
         firewall.setNetfilterTool(&iptables);
 
-        firewall.setCurrentProfile(ThreeStepsFirewall::PERMISSIVE);
+        firewall.setCurrentProfile(Firewall::PERMISSIVE);
 
         auto reply = manager->get(QNetworkRequest(QUrl("http://qt-project.org")));
         QSignalSpy spyFinished(reply, &QNetworkReply::finished);
@@ -38,10 +38,10 @@ private slots:
     void stealth()
     {
         Iptables iptables;
-        ThreeStepsFirewall firewall;
+        Firewall firewall;
         firewall.setNetfilterTool(&iptables);
 
-        firewall.setCurrentProfile(ThreeStepsFirewall::STEALTH);
+        firewall.setCurrentProfile(Firewall::STEALTH);
 
         auto reply = manager->get(QNetworkRequest(QUrl("http://qt-project.org")));
         QSignalSpy spyFinished(reply, &QNetworkReply::finished);
@@ -54,10 +54,10 @@ private slots:
     void paranoid()
     {
         Iptables iptables;
-        ThreeStepsFirewall firewall;
+        Firewall firewall;
         firewall.setNetfilterTool(&iptables);
 
-        firewall.setCurrentProfile(ThreeStepsFirewall::PARANOID);
+        firewall.setCurrentProfile(Firewall::PARANOID);
 
         auto reply = manager->get(QNetworkRequest(QUrl("http://qt-project.org")));
         QSignalSpy spyFinished(reply, &QNetworkReply::finished);
@@ -74,5 +74,5 @@ private slots:
     }
 };
 
-QTEST_MAIN(TestTreeStepsFirewall)
-#include "TestTreeStepsFirewall.moc"
+QTEST_MAIN(TestFirewall)
+#include "TestFirewall.moc"

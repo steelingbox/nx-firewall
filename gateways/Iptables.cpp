@@ -23,9 +23,13 @@ void Iptables::apply(const RuleSet& ruleSet)
     if (isAvailable()) {
         auto instructions = generateIptablesInstructions(ruleSet);
         runIptableInstructions(instructions);
+        emit NetFilterTool::ruleSetApplied();
     }
-    else
-        qCritical() << "Unable to locate iptables executable";
+    else {
+        QString errorMsg = "Unable to locate iptables executable";
+        qCritical() << errorMsg;
+        emit NetFilterTool::error(errorMsg);
+    }
 }
 
 void Iptables::runIptableInstructions(const QStringList& iptablesInstructions) const

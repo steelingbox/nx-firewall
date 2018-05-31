@@ -11,9 +11,14 @@
 class NetFilterTool : public QObject {
 Q_OBJECT
 
-public:
+public slots:
     virtual bool isAvailable() = 0;
     virtual void apply(const RuleSet& ruleSet) = 0;
+
+signals:
+    void ruleSetApplied();
+    void error(QString error);
+    
 };
 
 #endif //NOMAD_FIREWALL_NETWORKFILTERINGMANAGEMENTTOOL_H

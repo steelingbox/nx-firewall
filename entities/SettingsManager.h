@@ -10,6 +10,7 @@
 
 class SettingsManager {
 public:
+    static constexpr auto SETTINGS_PATH = "/etc/org.nomad.firewall.config";
     virtual ~SettingsManager() { }
 
     virtual void save(const QVariantMap& settings) = 0;

@@ -17,7 +17,6 @@ public:
     NomadFirewallKAuthHelper();
 public Q_SLOTS:
     ActionReply apply(const QVariantMap data);
-    ActionReply save(const QVariantMap settings);
 
 };
 

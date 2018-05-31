@@ -7,8 +7,8 @@ set(ENTITIES_SRCS
     Service.h
     NetFilterTool.cpp
     NetFilterTool.h
-    ThreeStepsFirewall.cpp
-    ThreeStepsFirewall.h
+    Firewall.cpp
+    Firewall.h
     SettingsManager.h
     QVariantRuleSetConverter.cpp
     QVariantRuleSetConverter.h)

@@ -30,8 +30,8 @@ RowLayout {
 
             height: 20
 
-            value: ThreeStepsFirewall.profile
-            onValueChanged: ThreeStepsFirewall.profile != value ? ThreeStepsFirewall.profile = value : ThreeStepsFirewall.profile
+            value: Firewall.profile
+            onValueChanged: Firewall.profile != value ? Firewall.profile = value : Firewall.profile
         }
 
         RowLayout {
@@ -44,12 +44,12 @@ RowLayout {
 
 
         Component.onCompleted: {
-            ThreeStepsFirewall.loadSettings()
+            Firewall.loadSettings()
         }
 
          Timer {
                 interval: 500; running: true; repeat: false
-                onTriggered: ThreeStepsFirewall.profile = 0
+                onTriggered: Firewall.profile = 0
             }
     }
 

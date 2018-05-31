@@ -7,13 +7,13 @@
 #include <QMetaEnum>
 #include <QDebug>
 
-#include "ThreeStepsFirewall.h"
+#include "Firewall.h"
 #include "../entities/QVariantRuleSetConverter.h"
 
-ThreeStepsFirewall::ThreeStepsFirewall(QObject* parent)
+Firewall::Firewall(QObject* parent)
         :QObject(parent), netfilterTool(nullptr) { }
 
-RuleSet ThreeStepsFirewall::getPermissiveSetup()
+RuleSet Firewall::getPermissiveSetup() const
 {
     RuleSet ruleSet;
     ruleSet.setDefaultIncomingPolicy(Rule::ALLOW);
@@ -22,7 +22,7 @@ RuleSet ThreeStepsFirewall::getPermissiveSetup()
 
     return ruleSet;
 }
-RuleSet ThreeStepsFirewall::getStealthSetup()
+RuleSet Firewall::getStealthSetup() const
 {
     RuleSet ruleSet;
     ruleSet.setDefaultIncomingPolicy(Rule::DENY);
@@ -43,7 +43,7 @@ RuleSet ThreeStepsFirewall::getStealthSetup()
     ruleSet.setRules(rules);
     return ruleSet;
 }
-Rule* ThreeStepsFirewall::getAllowIncomingOnLoRule() const
+Rule* Firewall::getAllowIncomingOnLoRule() const
 {
     auto allowIncomingOnLo = new Rule();
     allowIncomingOnLo->setInterface("lo");
@@ -51,7 +51,7 @@ Rule* ThreeStepsFirewall::getAllowIncomingOnLoRule() const
     allowIncomingOnLo->setAction(Rule::ALLOW);
     return allowIncomingOnLo;
 }
-RuleSet ThreeStepsFirewall::getParanoidSetup()
+RuleSet Firewall::getParanoidSetup() const
 {
     RuleSet ruleSet;
     ruleSet.setDefaultIncomingPolicy(Rule::DENY);
@@ -67,7 +67,7 @@ RuleSet ThreeStepsFirewall::getParanoidSetup()
     ruleSet.setRules(rules);
     return ruleSet;
 }
-Rule* ThreeStepsFirewall::getAllowDNSRule() const
+Rule* Firewall::getAllowDNSRule() const
 {
     auto allowDomain = new Rule();
     allowDomain->setDirection(Rule::OUTGOING);
@@ -76,7 +76,7 @@ Rule* ThreeStepsFirewall::getAllowDNSRule() const
     allowDomain->setAction(Rule::ALLOW);
     return allowDomain;
 }
-Rule* ThreeStepsFirewall::getAllowHttpRule() const
+Rule* Firewall::getAllowHttpRule() const
 {
     auto allowHttp = new Rule();
     allowHttp->setDirection(Rule::OUTGOING);
@@ -85,30 +85,30 @@ Rule* ThreeStepsFirewall::getAllowHttpRule() const
     allowHttp->setDestinationPorts({80, 443});
     return allowHttp;
 }
-ThreeStepsFirewall::Profile ThreeStepsFirewall::getCurrentProfile() const
+Firewall::Profile Firewall::getCurrentProfile() const
 {
     return currentProfile;
 }
-void ThreeStepsFirewall::setCurrentProfile(ThreeStepsFirewall::Profile currentProfile)
+void Firewall::setCurrentProfile(Firewall::Profile currentProfile)
 {
-    ThreeStepsFirewall::currentProfile = currentProfile;
+    Firewall::currentProfile = currentProfile;
     emit profileChanged(currentProfile);
 }
-void ThreeStepsFirewall::setNetfilterTool(NetFilterTool* netfilterTool)
+void Firewall::setNetfilterTool(NetFilterTool* netfilterTool)
 {
-    ThreeStepsFirewall::netfilterTool = netfilterTool;
+    Firewall::netfilterTool = netfilterTool;
 }
-const QList<Rule*>& ThreeStepsFirewall::getCustomRules() const
+const QList<Rule*>& Firewall::getCustomRules() const
 {
     return customRules;
 }
-void ThreeStepsFirewall::setCustomRules(const QList<Rule*>& customRules)
+void Firewall::setCustomRules(const QList<Rule*>& customRules)
 {
-    ThreeStepsFirewall::customRules = customRules;
+    Firewall::customRules = customRules;
     emit customRulesChanged(customRules);
 }
 
-void ThreeStepsFirewall::loadCustomRules(const QVariantMap& map)
+void Firewall::loadCustomRules(const QVariantMap& map)
 {
     auto rulesVariantList = map.value("rules").toList();
     QList<Rule*> ruleList;
@@ -120,7 +120,7 @@ void ThreeStepsFirewall::loadCustomRules(const QVariantMap& map)
 
     customRules = ruleList;
 }
-void ThreeStepsFirewall::loadProfile(const QVariantMap& map)
+void Firewall::loadProfile(const QVariantMap& map)
 {
     Profile profile;
 
@@ -131,7 +131,7 @@ void ThreeStepsFirewall::loadProfile(const QVariantMap& map)
     profile = static_cast<Profile>(profileEnum.keyToValue(profileStr, &succeeded));
 
     if (succeeded) {
-        ThreeStepsFirewall::currentProfile = profile;
+        Firewall::currentProfile = profile;
         emit profileChanged(profile);
     }
     else {
@@ -140,51 +140,36 @@ void ThreeStepsFirewall::loadProfile(const QVariantMap& map)
     }
 }
 
-void ThreeStepsFirewall::setSettingsManager(SettingsManager* settingsManager)
+void Firewall::setSettingsManager(SettingsManager* settingsManager)
 {
-    ThreeStepsFirewall::settingsManager = settingsManager;
+    Firewall::settingsManager = settingsManager;
 }
-void ThreeStepsFirewall::loadSettings()
+QVariantMap Firewall::getSettings() const
 {
-    if (settingsManager) {
-        try {
-            auto map = settingsManager->load();
-            loadCustomRules(map);
-            loadProfile(map);
-        }
-        catch (QVariantRuleSetConverter::ConversionException exception) {
-            qWarning() << "Malformed settings file";
-        }
-    }
-    else
-        qWarning() << "No settings manager set.";
-}
+    QVariantMap settings;
 
-void ThreeStepsFirewall::saveSettings()
-{
-    if (settingsManager) {
-        try {
-            QVariantMap map;
+    auto profileEnum = QMetaEnum::fromType<Profile>();
+    settings["profile"] = profileEnum.key(currentProfile);
 
-            auto profileEnum = QMetaEnum::fromType<Profile>();
-            map["profile"] = profileEnum.key(currentProfile);
-
-            QVariantList variantRules;
-            for (auto rule: customRules)
+    QVariantList variantRules;
+    for (auto rule: customRules)
                 variantRules << QVariantRuleSetConverter::toVariant(rule);
 
-            map["rules"] = variantRules;
-
-            settingsManager->save(map);
-        }
-        catch (QVariantRuleSetConverter::ConversionException exception) {
-            qWarning() << "Malformed settings file";
-        }
-    }
-    else
-        qWarning() << "No settings manager set.";
+    settings["rules"] = variantRules;
+    return settings;
 }
-void ThreeStepsFirewall::applySettings()
+
+void Firewall::setSettings(const QVariantMap& settings)
+{
+    try {
+        loadCustomRules(settings);
+        loadProfile(settings);
+    }
+    catch (QVariantRuleSetConverter::ConversionException exception) {
+        qWarning() << "Malformed settings file";
+    }
+}
+RuleSet Firewall::getRuleSet() const
 {
     RuleSet ruleSet;
     if (currentProfile==PERMISSIVE)
@@ -196,16 +181,5 @@ void ThreeStepsFirewall::applySettings()
     if (currentProfile==PARANOID)
         ruleSet = getParanoidSetup();
 
-    if (netfilterTool)
-        netfilterTool->apply(ruleSet);
-}
-void ThreeStepsFirewall::loadSettings(const QVariantMap& settings)
-{
-    try {
-        loadCustomRules(settings);
-        loadProfile(settings);
-    }
-    catch (QVariantRuleSetConverter::ConversionException exception) {
-        qWarning() << "Malformed settings file";
-    }
+    return ruleSet;
 }

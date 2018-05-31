@@ -19,7 +19,7 @@ RowLayout {
 
     ComboBox {
         Layout.fillWidth: true
-        currentIndex: ThreeStepsFirewall.profile
+        currentIndex: Firewall.profile
         model: ListModel {
             id: cbItems
             ListElement { text: "Permissive"; }
@@ -27,7 +27,7 @@ RowLayout {
             ListElement { text: "Paranoid"; }
         }
         width: 200
-        onCurrentIndexChanged: ThreeStepsFirewall.profile != currentIndex ? ThreeStepsFirewall.profile = currentIndex : ThreeStepsFirewall.profile
+        onCurrentIndexChanged: Firewall.profile != currentIndex ? Firewall.profile = currentIndex : Firewall.profile
     }
 
     PlasmaComponents.ToolButton {
