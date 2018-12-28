@@ -1,6 +1,6 @@
-# Nomad Firewall [![Build Status](https://travis-ci.org/nomad-desktop/nomad-firewall.svg?branch=master)](https://travis-ci.org/nomad-desktop/nomad-firewall)
+# Nx Firewall [![Build Status](https://travis-ci.org/nx-desktop/nx-firewall.svg?branch=development)](https://travis-ci.org/nx-desktop/nx-firewall)
 
-This is the repository for the Nomad Firewall KCM.
+This is the repository for the Nx Firewall KCM.
 
 ![](https://i.imgur.com/AcguO3w.png)
 
