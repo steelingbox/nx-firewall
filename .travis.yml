@@ -1,38 +1,33 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
 addons:
   apt:
     packages:
-      - realpath
-
+    - realpath
 install:
-  - docker pull ubuntu:bionic
-  - wget https://raw.githubusercontent.com/nomad-desktop/nxos-repository-util/master/nxos-repository-util.sh -O nxos-repository-util.sh
-  - chmod +x nxos-repository-util.sh
-
+- docker pull ubuntu:bionic
+- wget https://raw.githubusercontent.com/nomad-desktop/nxos-repository-util/master/nxos-repository-util.sh
+  -O nxos-repository-util.sh
+- chmod +x nxos-repository-util.sh
 script:
- - docker run --rm -v $(pwd)/:/build/ -w /build/ ubuntu:bionic /bin/bash travis-build.sh
-
+- docker run --rm -v $(pwd)/:/build/ -w /build/ ubuntu:bionic /bin/bash travis-build.sh
 branches:
   only:
-    - master
-    - development
-
+  - master
+  - development
 deploy:
-  - provider: script
-    script: ./source/nxos-repository-util.sh upload testing *.deb
-    skip_cleanup: true
-    on:
-      branch: master
-      
-  - provider: script
-    script: ./source/nxos-repository-util.sh upload development *.deb
-    skip_cleanup: true
-    on:
-      branch: development
-
+- provider: script
+  script: "./source/nxos-repository-util.sh upload testing *.deb"
+  skip_cleanup: true
+  on:
+    branch: master
+- provider: script
+  script: "./source/nxos-repository-util.sh upload development *.deb"
+  skip_cleanup: true
+  on:
+    branch: development
 notifications:
   email: false
+  slack:
+    secure: CY6DgUhoAOLeZ6cVUfBpZNsc5W0p7LyBbNcAXk2CqswE9H81OU89A87owaB9E/EdZhMnItpm19XDH9vLNgk3Gi5QdSQJBzlGVP+OLu3QqOoXvcWVbK0OMuJA0Tj03PXLHKuaQC5SfWIduJ1Jq1ACkZ7JWnsdTDufXtuZ1Y9TZxUUArvKZT9CCGCZ7H1jBlJLYHQAnXDzUO5VDh/28hoTklCU0fEdt4h0Nyhf74Jd+9GBCMN7th307dQwjx4JFPFBjTm6vYo2R0w2iXWmtm/MXlY+kSfPCF95E4iLPOKvvOq47Uz+ZvbLxiTRPEpy2hiGwVOna9cm3xOqc4l1yQ32/dwAOgcK612kEj8AEQJ7NZBsYHNSfv6BXZz0x9Ed1GaSnzW7fU3ZAfcsULXCxQGNvgchjAJBdZ3ywULnSbOLPH//IIdpVQUId979EYUeIXk5gW7oCSOnZg1sbpuJkDAh8U6fQLuZkgFAdiSS+khPFE9kToiGWN+qi4LhdKAqLjb2Isy8ftWR1L4Ek11jJMG9W5uzllB1fbuquLiocSHV6B5jzx7ojy1wwXQdJ9RqvbvCSt5tf1QygR7lNJlQbUJW0rMlYYgPYuUl1DDcyi1VFHYd7ymEgKy4Ru7Xb1zv/IY3oc6o6zaSoJo2sr0tUt80093Ti9Xelh1qVmyseFsg9d8=
